@@ -12,7 +12,8 @@
 - Queremos realizar un sistema de información sobre una tienda de ropa () de productos como sudaderas, camisetas, pantalones, etc. Cada usuario se registrarrá con una cuenta, con su e-mail y contraseña correspondiente, para poder realizar pedidos online.
 Nuestra tienda contará con:
 1. Proveedores externos para el stock de lo mencionado anteriormente.
-2. Un almacen donde guardar el stock.
+2. Interfaz para hacer los pedidos.
+3. Capacidad de devoluciones y valoraciones para tener un feedback del consumidor.
 
 
 ## 2. Glosario de términos
@@ -75,7 +76,7 @@ para [razón]
 
 ### 5.1. Diagramas de clases UML
 
-- con restricciones.
+![alt text](image-1.svg)
 
 ### 5.2. Escenarios de prueba
 
