@@ -1,15 +1,19 @@
-# Título Proyecto
+# Tienda Ropa Online 
 
-## Miembros del grupo LX-XXX-X (sustituir)
+## Miembros del grupo L1-DF-AM-1 2026 (sustituir)
 
-1. Apellidos, Nombre
+1. Moguel Prado, José
 1. Apellidos, Nombre
 1. Apellidos, Nombre
 1. Apellidos, Nombre
 
 ## 1. Introducción al problema
 
-- Descripción del problema para poner en contexto el proyecto, incluyendo información sobre los clientes y usuarios, la situación actual, problemas, expectativas, etc. Se valorará la presencia de información multimedia (fotos, gráficos, documentos escaneados, etc.).
+- Queremos realizar un sistema de información sobre una tienda de ropa () de productos como sudaderas, camisetas, pantalones, etc. Cada usuario se registrarrá con una cuenta, con su e-mail y contraseña correspondiente, para poder realizar pedidos online.
+Nuestra tienda contará con:
+1. Proveedores externos para el stock de lo mencionado anteriormente.
+2. Un almacen donde guardar el stock.
+
 
 ## 2. Glosario de términos
 
