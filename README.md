@@ -55,7 +55,35 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 ### 3.1. Requisitos generales
 
+OBJ-001: Gestionar las cuentas de usuario
+
+    Como propietario o cliente de KUMAFU:
+
+    Quiero tener la capacidad para gestionar la información de la cuenta, para su uso en los pedidos a realizar.
+
+OBJ-002: Gestionar los pedidos
+
+    Como propietario de KUMAFU:
+
+    Quiero ofrecer un servicio de entrega fiable y seguro, manteniendo un seguimiento de su pedido, para que el cliente pueda recibirlo sin deterioro ninguno y pueda estimar la fecha de llegada del mismo.
+
+OBJ-003: Gestionar los productos
+
+    Como propietario de KUMAFU:
+
+    Quiero mantener actualizado las prendas que se encuentran disponibles para que el cliente conozca la disponibilidad del producto y el stock restante del mismo.
+
+OBJ-004: Gestionar las devoluciones
+
+    Como propietario de KUMAFU:
+
+    Quiero ofrecer un servicio seguro y eficaz de devoluciones, para que el cliente disponga de facilidades si hay algún problema con el producto y/o reparto.
+
 ### 3.2. Usuarios del sistema
+
+- Cliente: El usuario realizará un pedido, el cual será entregado en la dirección mencionada, con posibilidad de devolución si está dentro del plazo delimitado de 30 días.
+
+- Empresa de envío: Tendrá la información del cliente para saber dónde entregarlo y a nombre de quién para que no haya problemas de entrega a otras personas, equivocaciones, etc. 
 
 ## 4. Catálogo de requisitos
 
