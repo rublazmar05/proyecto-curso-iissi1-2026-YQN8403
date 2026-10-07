@@ -1,6 +1,6 @@
-# Tienda Ropa Online 
+# Tienda Ropa Online KUMAFU
 
-## Miembros del grupo L1-DF-AM-1 2026 (sustituir)
+## Miembros del grupo L1-DF-AM-1 2026
 
 1. Moguel Prado, José
 1. Apellidos, Nombre
@@ -9,7 +9,7 @@
 
 ## 1. Introducción al problema
 
-- Queremos realizar un sistema de información sobre una tienda de ropa () de productos como sudaderas, camisetas, pantalones, etc. Cada usuario se registrarrá con una cuenta, con su e-mail y contraseña correspondiente, para poder realizar pedidos online.
+Queremos realizar un sistema de información sobre una tienda de ropa (KUMAFU) de productos como sudaderas, camisetas, pantalones, etc. Cada usuario se registrarrá con una cuenta, con su e-mail y contraseña correspondiente, para poder realizar pedidos online.
 Nuestra tienda contará con:
 1. Proveedores externos para el stock de lo mencionado anteriormente.
 2. Interfaz para hacer los pedidos.
