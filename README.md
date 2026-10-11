@@ -6,7 +6,7 @@
 
 1. Moguel Prado, José
 2. Lázaro Marín, Rubén
-3. Apellidos, Nombre
+3. Ramírez Fabra, Javier
 4. Apellidos, Nombre
 
 ## 1. Introducción al problema
@@ -136,7 +136,7 @@ Descripción de la regla de negocio.
 
 ### 5.1. Diagramas de clases UML
 
-![Diagrama de clases UML del sistema KUMAFU](imagenes/image-1.svg)
+![Diagrama de clases UML del sistema KUMAFU](imagenes/UML_kumafu.svg)
 
 ### 5.2. Escenarios de prueba
 
