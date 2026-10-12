@@ -104,7 +104,13 @@ OBJ-004: Gestionar las devoluciones
 
 ### 3.2. Usuarios del sistema
 
-- Cliente: El usuario realizará un pedido, el cual será entregado en la dirección mencionada, con posibilidad de devolución si está dentro del plazo delimitado de 30 días.
+- Administrador: Gestiona la configuración del sistema y tiene la totalidad de su control.
+
+- Gerente de la tienda: Supervisa el día a día, revisa que prendas son las más vendidas y controla que haya stock suficiente de las prendas.
+
+- Encargado de almacén: Recibe la mercancía nueva y se encarga de revisar su calidad, ingresa las prendas con sus respectivos códigos de barras y talla y prepara los pedidos para su envío.
+
+- Cliente: Podrá realizar pedidos, navegar por la web,proponer una ubicación donde se entregará su pedido si así lo desea y realizar devoluciones si está dentro del plazo delimitado de 30 días.
 
 - Empresa de envío: Tendrá la información del cliente para saber dónde entregarlo y a nombre de quién para que no haya problemas de entrega a otras personas, equivocaciones, etc. 
 
