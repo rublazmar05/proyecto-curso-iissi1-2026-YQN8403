@@ -112,7 +112,7 @@ OBJ-004: Gestionar las devoluciones
 
 - Cliente: Podrá realizar pedidos, navegar por la web,proponer una ubicación donde se entregará su pedido si así lo desea y realizar devoluciones si está dentro del plazo delimitado de 30 días.
 
-- Empresa de envío: Tendrá la información del cliente para saber dónde entregarlo y a nombre de quién para que no haya problemas de entrega a otras personas, equivocaciones, etc. 
+- Empresa de envío: Tendrá la información del cliente para saber dónde entregar el pedido y a nombre de quién para que no haya problemas de entrega a otras personas, equivocaciones, etc. 
 
 ## 4. Catálogo de requisitos
 
