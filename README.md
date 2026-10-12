@@ -197,7 +197,7 @@ quiero que todos los pagos sean de valor no negativos, para garantizar que siemp
 
 ### 5.1. Diagramas de clases UML
 
-![Diagrama de clases UML del sistema KUMAFU](imagenes/UML_kumafu.svg)
+![Diagrama de clases UML del sistema KUMAFU](imagenes/UML_kumafu_2.svg)
 
 ### 5.2. Escenarios de prueba
 
