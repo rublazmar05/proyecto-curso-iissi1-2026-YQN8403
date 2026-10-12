@@ -47,9 +47,32 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - **Oferta:** Promoción con fechas de inicio y fin que aplica un descuento superior a cero a determinados productos del catálogo.
 - **Pago:** Transacción económica asociada a un pedido. Incluye un identificador de transacción y se realiza mediante alguno de los métodos de pago admitidos.
 - **Pedido:** Registro que confirma la intención de compra del usuario. Agrupa los productos seleccionados y calcula el total a partir de sus precios en el momento de la compra.
-- **Producto o prenda:** Artículo de ropa que vende KUMAFU. Tiene una talla de XS a XL o talla única, un color, un precio actual y una cantidad disponible en el almacén, que no puede ser negativa.
-![Ejemplo camiseta logo](imagenes/camiseta%20logo.jpeg)
 - **Valoración:** Opinión de un usuario sobre un producto adquirido, compuesta por una puntuación del 1 al 5 y un comentario. Debe aprobarse antes de hacerse pública.
+- **Gastos de envío:** Coste adicional que se abonará al realizar un pedido a domicilio.
+- **Marketing:** Pûblicidad o técnicas que utiliza la marca para promocionarse.
+- **Talla:** Tamaño o medida de una prenda o accesorio.
+- **Producto o prenda:** Artículo de ropa que vende KUMAFU. Tiene una talla de XS a XL o talla única, un color, un precio actual y una cantidad disponible en el almacén, que no puede ser negativa.
+
+![Ejemplo camiseta logo](imagenes/camiseta%20logo.jpeg)
+- **Baggy:** Tallaje de la prenda más holgada de lo normal.
+
+![Ejemplo baggy](imagenes/baggy.jpg)
+- **Denim:** Tono del color de un pantalón vaquero.
+
+![Ejemplo denim](imagenes/denim.jpg)
+- **Oversize:** Tallaje de una prenda más larga o grande de lo normal.
+
+![Ejemplo oversize](imagenes/oversize.jpg)
+- **Cargo:** Tipo de pantalón con varios bolsillos. Tienen más volumen de tamaño.
+
+![Ejemplo cargo](imagenes/cargo.png)
+- **Hoodie:** Término con el cual podemos referir a una sudadera con capucha.
+
+![Ejemplo hoodie](imagenes/hoodie.jpg)
+- **Joggers:** Tipo de pantalón largo el cual está ajustado en la zona de los tobillos.
+
+![Ejemplo joggers](imagenes/joggers.jpg)
+
 
 ## 3. Visión general del sistema
 
