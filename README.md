@@ -118,8 +118,6 @@ OBJ-004: Gestionar las devoluciones
 
 ### 4.1. Requisitos funcionales
 
-### 4.1. Requisitos funcionales
-
 #### R.F.01. Consultar el catálogo de productos
 
 - **Como:** cliente.
@@ -228,16 +226,63 @@ OBJ-004: Gestionar las devoluciones
 
 #### 4.1.1. Requisitos de información
 
-##### R.I.01. Título del requisito de información
+##### R.I.01. Almacenamiento de cuentas de usuario
 
-- **Como:** [tipo de usuario]
-- **Quiero:** [servicio]
-- **Para:** [razón]
+- **Como:** Administrador
+- **Quiero:** almacenar de forma persistente la información de las cuentas (nombre, apellidos, email, password, teléfono y dirección de envío).
+- **Para:** gestionar de manera individualizada el acceso a la tienda, la logística de envíos y el cálculo de la deuda acumulada de cada usuario.
 
 **Pruebas de aceptación**
 
-- Descripción de la primera comprobación que se debe realizar.
+- Comprobar que el email introducido por el usuario contenga el carácter **"@"**. Se debe cumplir la regla de negocio R.N.001.
+- Comprobar que el sistema es capaz de recuperar la dirección de envío del usuario al momento de generar el pedido.
+- Se registra un cliente nuevo, se pide un listado de clientes y aparece el cliente nuevo.
+
+##### R.I.02. Registro del catálogo de productos y ofertas temporales.
+
+- **Como:** Encargado de almacén
+- **Quiero:** registrar y actualizar los datos de cada producto (nombre, descripción, talla, precio actual, stock, color y disponibilidad), así como las ofertas aplicadas a estos (código, porcentaje de descuento, fecha de inicio y fin).
+- **Para:** asegurar que el cliente vea el inventario real y compre con los precios y promociones correctos en cada momento.
+
+**Pruebas de aceptación**
+
+- Comprobar que el sistema no permite guardar un producto con precio o stock con valor igual o inferior a cero. Se deben cumplir las reglas de negocio R.N.002 y R.N.011.
 - Descripción de la segunda comprobación que se debe realizar.
+
+##### R.I.03. Registro y trazabilidad de pedidos y pagos
+
+- **Como:** Cliente
+- **Quiero:** que el sistema guarde la cabecera de mis compras formalizadas (fecha, estado, precio total) junto con el detalle de las prendas, así como los datos de los pagos asociados a estas transacciones (método, cantidad, identificador de transacción y estado).
+- **Para:** disponer de un comprobante de compra y permitir el seguimiento logístico y financiero del paquete.
+
+**Pruebas de aceptación**
+
+- Comprobar que el precio total del pedido coincide exactamente con la suma de los precios de las prendas incluidas en dicho pedido.
+- Comprobar que la cantidad solicitada de cada producto en el pedido es mayor a 0 y no excede la cantidad disponible de stock. Se deben cumplir las reglas de negocio R.N.008 y R.N.009.
+- Comprobar que el sistema rechaza la creación del pedido si la deuda del cliente es mayor o igual a 500€ (R.N.003), o rechaza dividir el pago total si es menor a 500€ (R.N.007).
+
+##### R.I.04. Registro del estado del carrito de compras
+
+- **Como:** Cliente
+- **Quiero:** que el sistema almacene mi carrito de compra junto con los ítems (productos y cantidades) y su estado actual (activo, comprado o abandonado).
+- **Para:** no perder la selección de prendas si abandono la sesión temporalmente antes de formalizar el pedido.
+
+**Pruebas de aceptación**
+
+- Comprobar que un carrito no puede existir vacío en el sistema. Debe contener uno o más productos.
+- Comprobar que el carrito pasa al estado **"COMPRADO"** únicamente cuando se genera el pedido definitivo.
+
+##### R.I.05. Almacenamiento de devoluciones y valoraciones
+
+- **Como:** Cliente 
+- **Quiero:** registrar en el sistema mis solicitudes de devolución (motivo, fecha de solicitud, estado y reembolso esperado) y las valoraciones de los productos que ya he recibido (calificación, comentario, fecha de publicación y estado de aprobación). 
+- **Para:** poder gestionar incidencias con mis compras y proporcionar retroalimentación a la tienda sobre la calidad de la ropa.
+
+**Pruebas de aceptación**
+
+- Comprobar que la fecha de solicitud de la devolución tiene una diferencia menor a 30 días respecto a la fecha del pedido asociado. Se debe cumplir la regla de negocio R.N.006.
+- Comprobar que la calificación numérica asignada en la valoración se restringe estrictamente al rango del 1 al 5. Se debe cumplir la regla de negocio R.N.005.
+
 
 #### 4.1.2. Reglas de negocio
 
@@ -332,15 +377,15 @@ Cada escenario debe incluir una descripción textual y un diagrama de objetos UM
 
 Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos:
 
-|         | Entidad X | Asociación X | Restricción X | Entidad 2... |
-|:--------|:----------|:-------------|:--------------|:--------------|
-| RI-1    | X         | X            | X             | X             |
-| RI-2    |           | X            |               | X             |
-| RF-1    |           | X            |               | X             |
-| RF-2    | X         |              | X             | X             |
-| RN-1    |           | X            |               |               |
-| RN-2    | X         | X            | X             |               |
-| ...     |           |              |               |               |
+|      | Entidad X | Asociación X | Restricción X | Entidad 2... |
+| :--- | :-------- | :----------- | :------------ | :----------- |
+| RI-1 | X         | X            | X             | X            |
+| RI-2 |           | X            |               | X            |
+| RF-1 |           | X            |               | X            |
+| RF-2 | X         |              | X             | X            |
+| RN-1 |           | X            |               |              |
+| RN-2 | X         | X            | X             |              |
+| ...  |           |              |               |              |
 
 ---
 
@@ -356,20 +401,20 @@ Si se identificaron jerarquías en el modelo conceptual, se debe justificar la e
 
 La matriz debe relacionar las restricciones del modelo conceptual con los elementos del modelo tecnológico en SQL, como disparadores y restricciones declarativas. Para el entregable 3, se deben incluir las reglas de negocio y su implementación mediante restricciones o disparadores.
 
-|             | Entidad X | Asociación X | Restricción X | Entidad 2... |
-|:------------|:----------|:-------------|:--------------|:--------------|
-| TABLA-1     |           |              |               |               |
-| TABLA-2     |           |              |               |               |
-| TABLA-3     |           |              |               |               |
-| TABLA-4     |           |              |               |               |
-| TRIG-1      |           |              |               |               |
-| TRIG-2      | X         | X            |               | X             |
-| TRIG-3      |           | X            |               | X             |
-| TRIG-4      |           |              | X             |               |
-| CONST-1     |           |              |               |               |
-| CONST-2     | X         | X            |               | X             |
-| CONST-3     |           | X            |               | X             |
-| CONST-4     |           |              | X             |               |
+|         | Entidad X | Asociación X | Restricción X | Entidad 2... |
+| :------ | :-------- | :----------- | :------------ | :----------- |
+| TABLA-1 |           |              |               |              |
+| TABLA-2 |           |              |               |              |
+| TABLA-3 |           |              |               |              |
+| TABLA-4 |           |              |               |              |
+| TRIG-1  |           |              |               |              |
+| TRIG-2  | X         | X            |               | X            |
+| TRIG-3  |           | X            |               | X            |
+| TRIG-4  |           |              | X             |              |
+| CONST-1 |           |              |               |              |
+| CONST-2 | X         | X            |               | X            |
+| CONST-3 |           | X            |               | X            |
+| CONST-4 |           |              | X             |              |
 
 Se consideran todos los tipos de restricciones declarativas, es decir, las definidas en las instrucciones `CREATE TABLE`.
 
