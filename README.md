@@ -78,29 +78,30 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 ### 3.1. Requisitos generales
 
-OBJ-001: Gestionar las cuentas de usuario
+#### OBJ-001: Gestionar las cuentas de usuario
+- **Como:** Administrador.
+- **Quiero:** Tener la capacidad para gestionar la información de la cuenta de todos los usuarios.
+- **Para:** Conocer la informacion del cliente y posibles eliminaciones de usuario.
 
-    Como propietario o cliente de KUMAFU:
+#### OBJ-002: Gestionar su cuenta un usuario
+- **Como:** Cliente.
+- **Quiero:** Tener la capacidad para gestionar la información de su propia cuenta.
+- **Para:** Su uso en los pedidos a realizar (dirección deseada, horarios de llegada del pedido, etc.).
 
-    Quiero tener la capacidad para gestionar la información de la cuenta, para su uso en los pedidos a realizar.
+#### OBJ-003: Gestionar los pedidos
+- **Como:** Encargado de almacén.
+- **Quiero:** Ofrecer un servicio de entrega fiable y seguro,tener un recuento de los productor del pedido y manteniendo un seguimiento del mismo.
+- **Para:** Que el cliente pueda recibirlo sin deterioro ninguno y pueda estimar la fecha de llegada del mismo.
 
-OBJ-002: Gestionar los pedidos
+#### OBJ-004: Gestionar los productos
+- **Como:** Gerente de la tienda.
+- **Quiero:** Mantener actualizado el stock las prendas que se encuentran disponibles.
+- **Para:** Que el cliente conozca la disponibilidad del producto y el stock restante del mismo.
 
-    Como propietario de KUMAFU:
-
-    Quiero ofrecer un servicio de entrega fiable y seguro, manteniendo un seguimiento de su pedido, para que el cliente pueda recibirlo sin deterioro ninguno y pueda estimar la fecha de llegada del mismo.
-
-OBJ-003: Gestionar los productos
-
-    Como propietario de KUMAFU:
-
-    Quiero mantener actualizado las prendas que se encuentran disponibles para que el cliente conozca la disponibilidad del producto y el stock restante del mismo.
-
-OBJ-004: Gestionar las devoluciones
-
-    Como propietario de KUMAFU:
-
-    Quiero ofrecer un servicio seguro y eficaz de devoluciones, para que el cliente disponga de facilidades si hay algún problema con el producto y/o reparto.
+#### OBJ-005: Gestionar las devoluciones
+- **Como:** Gerente de la tienda.
+- **Quiero:** Ofrecer un servicio seguro y eficaz de devoluciones.
+- **Para:** Que el cliente disponga de facilidades si hay algún problema con el envío o el reparto (producto defectuoso, mensajes de envío realizado fraudulentos, etc.).
 
 ### 3.2. Usuarios del sistema
 
@@ -115,8 +116,6 @@ OBJ-004: Gestionar las devoluciones
 - Empresa de envío: Tendrá la información del cliente para saber dónde entregar el pedido y a nombre de quién para que no haya problemas de entrega a otras personas, equivocaciones, etc. 
 
 ## 4. Catálogo de requisitos
-
-### 4.1. Requisitos funcionales
 
 ### 4.1. Requisitos funcionales
 
