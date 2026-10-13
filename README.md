@@ -118,17 +118,113 @@ OBJ-004: Gestionar las devoluciones
 
 ### 4.1. Requisitos funcionales
 
-#### R.F.01. Título del requisito funcional
+### 4.1. Requisitos funcionales
 
-- **Como:** [tipo de usuario]
-- **Quiero:** [servicio]
-- **Para:** [razón]
+#### R.F.01. Consultar el catálogo de productos
+
+- **Como:** cliente.
+- **Quiero:** consultar los productos del catálogo y filtrarlos por tipo de prenda, talla y color.
+- **Para:** encontrar prendas que se ajusten a mis preferencias y conocer su disponibilidad y precio.
 
 **Pruebas de aceptación**
 
-- Descripción de la primera comprobación que se debe realizar.
-- Descripción de la segunda comprobación que se debe realizar.
-- Se debe cumplir la regla de negocio R.N.XX.
+- Al consultar el catálogo sin filtros, se muestran todos los productos del catálogo.
+- Al aplicar varios filtros, se muestran únicamente los productos que cumplen todos los criterios seleccionados.
+- Para cada producto se muestran su nombre, talla, color, precio y disponibilidad.
+- Si ningún producto cumple los filtros, se informa de que no hay resultados.
+
+#### R.F.02. Consultar el historial y el detalle de los pedidos
+
+- **Como:** cliente.
+- **Quiero:** consultar mis pedidos y acceder al detalle de cada uno.
+- **Para:** conocer qué he comprado y en qué estado se encuentra cada pedido.
+
+**Pruebas de aceptación**
+
+- El listado muestra únicamente los pedidos del cliente que realiza la consulta, ordenados desde el más reciente.
+- Para cada pedido se muestran su identificador, fecha, importe total y estado.
+- Al consultar su detalle, se muestran los productos, sus cantidades y los precios que tenían en el momento de la compra.
+- Si el cliente no tiene pedidos, se informa de que su historial está vacío.
+
+#### R.F.03. Consultar las existencias de productos
+
+- **Como:** encargado de almacén.
+- **Quiero:** consultar las existencias de los productos por talla y color.
+- **Para:** conocer las unidades disponibles y detectar los productos agotados.
+
+**Pruebas de aceptación**
+
+- La consulta muestra la cantidad disponible de cada producto, identificando su talla y color.
+- Al filtrar por un producto, se muestran únicamente las existencias correspondientes a ese producto.
+- Al consultar los productos agotados, se muestran únicamente aquellos cuyo stock es cero.
+- Si ningún producto cumple los criterios seleccionados, se informa de que no hay resultados.
+
+#### R.F.04. Consultar los pagos y el importe pendiente de un pedido
+
+- **Como:** cliente.
+- **Quiero:** consultar los pagos registrados de mis pedidos y su importe pendiente.
+- **Para:** comprobar cuánto he pagado y cuánto queda por abonar.
+
+**Pruebas de aceptación**
+
+- El cliente puede consultar únicamente los pagos de sus propios pedidos.
+- Para cada pago se muestran su identificador de transacción, importe y método de pago.
+- Para un pedido de 600 euros con un pago registrado de 200 euros, se muestran 200 euros abonados y 400 euros pendientes.
+- Si un pedido no tiene pagos registrados, se informa de ello y su importe pendiente coincide con el total del pedido.
+- Si el pedido está completamente pagado, su importe pendiente es cero.
+
+#### R.F.05. Consultar los pedidos gestionados por un empleado
+
+- **Como:** gerente de la tienda.
+- **Quiero:** consultar los pedidos gestionados por un empleado y filtrarlos por estado.
+- **Para:** supervisar la distribución del trabajo y el seguimiento de los pedidos.
+
+**Pruebas de aceptación**
+
+- Al seleccionar un empleado, se muestran únicamente los pedidos que tiene asociados.
+- Para cada pedido se muestran su identificador, fecha y estado.
+- Al seleccionar un estado, se muestran únicamente los pedidos del empleado que se encuentran en ese estado.
+- Si el empleado no tiene pedidos que cumplan los criterios, se informa de que no hay resultados.
+
+#### R.F.06. Consultar las solicitudes de devolución
+
+- **Como:** cliente.
+- **Quiero:** consultar mis solicitudes de devolución y su estado.
+- **Para:** realizar un seguimiento de las devoluciones que he solicitado.
+
+**Pruebas de aceptación**
+
+- El listado muestra únicamente las solicitudes de devolución del cliente que realiza la consulta.
+- Para cada solicitud se muestran el pedido asociado, la fecha de solicitud y su estado.
+- Al seleccionar una solicitud, se muestra la información correspondiente a esa devolución.
+- Si el cliente no ha solicitado devoluciones, se informa de que no hay solicitudes registradas.
+
+#### R.F.07. Consultar las valoraciones de un producto
+
+- **Como:** cliente.
+- **Quiero:** consultar las valoraciones publicadas de un producto.
+- **Para:** conocer la opinión de otros compradores antes de decidir mi compra.
+
+**Pruebas de aceptación**
+
+- Al consultar un producto, se muestran únicamente sus valoraciones aprobadas.
+- Cada valoración muestra su puntuación y comentario.
+- Una valoración pendiente de aprobación no aparece en la consulta pública.
+- Las puntuaciones mostradas están comprendidas entre 1 y 5, conforme a la regla de negocio R.N.005.
+- Si el producto no tiene valoraciones aprobadas, se informa de que todavía no hay valoraciones publicadas.
+
+#### R.F.08. Consultar los métodos de pago guardados
+
+- **Como:** cliente.
+- **Quiero:** consultar los métodos de pago que tengo guardados en mi cuenta.
+- **Para:** conocer las opciones de pago que tengo disponibles para futuras compras.
+
+**Pruebas de aceptación**
+
+- La consulta muestra únicamente los métodos de pago guardados por el cliente que realiza la consulta.
+- Para cada método se muestran su tipo y una referencia que permita distinguirlo de los demás.
+- Las tarjetas se identifican mediante su marca y sus cuatro últimos dígitos, sin mostrar el número completo ni el código de seguridad.
+- Si el cliente no tiene métodos de pago guardados, se informa de ello.
 
 #### 4.1.1. Requisitos de información
 
