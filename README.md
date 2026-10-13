@@ -227,16 +227,69 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 #### 4.1.1. Requisitos de información
 
-##### R.I.01. Título del requisito de información
+##### R.I.01. Registro de usuarios, clientes y empleados
 
-- **Como:** [tipo de usuario]
-- **Quiero:** [servicio]
-- **Para:** [razón]
+- **Como:** Administrador
+- **Quiero:** registrar los datos de los usuarios (nombre, apellidos, email, contraseña y teléfono) y distinguir entre clientes y empleados. Para los clientes, también quiero registrar la dirección de envío
+- **Para:** gestionar las cuentas y disponer de la información necesaria para los pedidos y la gestión de la tienda.
 
 **Pruebas de aceptación**
 
-- Descripción de la primera comprobación que se debe realizar.
-- Descripción de la segunda comprobación que se debe realizar.
+- Comprobar que se almacenan los atributos definidos para la clase **Usuario**.
+- Comprobar que cada cliente dispone de una dirección de envío.
+- Comprobar que el email introducido por el usuario contenga el carácter **"@"**, según la regla de negocio correspondiente (R.N.001).
+- Comprobar que se puede consultar la deuda del cliente como un valor calculado, no como un dato almacenado.
+
+##### R.I.02. Registro de productos y ofertas
+
+- **Como:** Encargado de almacén
+- **Quiero:** registrar y actualizar los datos de cada producto (nombre, descripción, talla, precio actual, stock, color y disponibilidad), así como las ofertas aplicadas a estos (porcentaje de descuento, fecha de inicio y fin).
+- **Para:** asegurar que el cliente vea el inventario real y compre con los precios y promociones correctos en cada momento.
+
+**Pruebas de aceptación**
+
+- Comprobar que se pueden almacenar los datos definidos para **Producto**.
+- Comprobar que el sistema no permite guardar un producto con precio o stock con valor igual o inferior a cero. Se deben cumplir las reglas de negocio correspondientes (R.N.002 y R.N.011).
+- Comprobar que, cuando se informan ambas fechas de la oferta, la fecha de fin es posterior a la de inicio.
+
+##### R.I.03. Registro de pedidos y pagos
+
+- **Como:** Cliente
+- **Quiero:** que el sistema registre los pedidos, sus fechas de envío y confirmación, su estado y los pagos asociados, incluidos su cantidad, estado y método de pago.
+- **Para:** consultar el estado de mis pedidos y la información de los pagos resgistrados.
+
+**Pruebas de aceptación**
+
+- Comprobar que el pedido puede asociarse a un cliente y a los pagos correspondientes.
+- Comprobar que se registran la fecha de envío, la fecha de confirmación y el estado del pedido cuando corresponda.
+- Comprobar que cada pago almacena la cantidad y el estado definidos en **Pago**, y que se asocia a un método de pago.
+- Comprobar que el total del pedido y el importe por pagar se obtienen de acuerdo con los atributos derivados del diagrama.
+
+##### R.I.04. Registro del detalle de los pedidos
+
+- **Como:** Cliente
+- **Quiero:** que el sistema registre las líneas de cada pedido, indicando el producto y la cantidad correspondiente.
+- **Para:** conocer qué productos forman parte del pedido y cómo se obtiene su importe.
+
+**Pruebas de aceptación**
+
+- Comprobar que un pedido puede contener una o varias líneas de pedido.
+- Comprobar que el precio unitario y total se calculan conforme a los atributos derivados.
+- Comprobar que la cantidad solicitada es positiva y no supera el stock disponible.
+
+##### R.I.05. Registro de devoluciones y datos de valoración del pedido
+
+- **Como:** Cliente 
+- **Quiero:** que el sistema registre las devoluciones asociadas a mis pedidos con su fecha de solicitud, descripción y estado, y que permita guardar la valoración y el comentario asociados al pedido. 
+- **Para:** realizar el seguimiento de las devoluciones y registrar mi opinión sobre la compra.
+
+**Pruebas de aceptación**
+
+- Comprobar que una devolución está asociada a un pedido y registra la fecha de solicitud, el estado y, si se proporciona, la descripción.
+- Comprobar que la valoración y el comentario pueden registrarse como datos opcionales del pedido.
+- Comprobar que la fecha de solicitud de la devolución tiene una diferencia menor a 30 días respecto a la fecha del pedido asociado. Se debe cumplir la regla de negocio R.N.006.
+- Comprobar que la calificación numérica asignada en la valoración se restringe estrictamente al rango del 1 al 5. Se debe cumplir la regla de negocio R.N.005.
+
 
 #### 4.1.2. Reglas de negocio
 
@@ -331,15 +384,15 @@ Cada escenario debe incluir una descripción textual y un diagrama de objetos UM
 
 Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos:
 
-|         | Entidad X | Asociación X | Restricción X | Entidad 2... |
-|:--------|:----------|:-------------|:--------------|:--------------|
-| RI-1    | X         | X            | X             | X             |
-| RI-2    |           | X            |               | X             |
-| RF-1    |           | X            |               | X             |
-| RF-2    | X         |              | X             | X             |
-| RN-1    |           | X            |               |               |
-| RN-2    | X         | X            | X             |               |
-| ...     |           |              |               |               |
+|      | Entidad X | Asociación X | Restricción X | Entidad 2... |
+| :--- | :-------- | :----------- | :------------ | :----------- |
+| RI-1 | X         | X            | X             | X            |
+| RI-2 |           | X            |               | X            |
+| RF-1 |           | X            |               | X            |
+| RF-2 | X         |              | X             | X            |
+| RN-1 |           | X            |               |              |
+| RN-2 | X         | X            | X             |              |
+| ...  |           |              |               |              |
 
 ---
 
@@ -355,20 +408,20 @@ Si se identificaron jerarquías en el modelo conceptual, se debe justificar la e
 
 La matriz debe relacionar las restricciones del modelo conceptual con los elementos del modelo tecnológico en SQL, como disparadores y restricciones declarativas. Para el entregable 3, se deben incluir las reglas de negocio y su implementación mediante restricciones o disparadores.
 
-|             | Entidad X | Asociación X | Restricción X | Entidad 2... |
-|:------------|:----------|:-------------|:--------------|:--------------|
-| TABLA-1     |           |              |               |               |
-| TABLA-2     |           |              |               |               |
-| TABLA-3     |           |              |               |               |
-| TABLA-4     |           |              |               |               |
-| TRIG-1      |           |              |               |               |
-| TRIG-2      | X         | X            |               | X             |
-| TRIG-3      |           | X            |               | X             |
-| TRIG-4      |           |              | X             |               |
-| CONST-1     |           |              |               |               |
-| CONST-2     | X         | X            |               | X             |
-| CONST-3     |           | X            |               | X             |
-| CONST-4     |           |              | X             |               |
+|         | Entidad X | Asociación X | Restricción X | Entidad 2... |
+| :------ | :-------- | :----------- | :------------ | :----------- |
+| TABLA-1 |           |              |               |              |
+| TABLA-2 |           |              |               |              |
+| TABLA-3 |           |              |               |              |
+| TABLA-4 |           |              |               |              |
+| TRIG-1  |           |              |               |              |
+| TRIG-2  | X         | X            |               | X            |
+| TRIG-3  |           | X            |               | X            |
+| TRIG-4  |           |              | X             |              |
+| CONST-1 |           |              |               |              |
+| CONST-2 | X         | X            |               | X            |
+| CONST-3 |           | X            |               | X            |
+| CONST-4 |           |              | X             |              |
 
 Se consideran todos los tipos de restricciones declarativas, es decir, las definidas en las instrucciones `CREATE TABLE`.
 
