@@ -7,7 +7,7 @@
 1. Moguel Prado, José
 2. Lázaro Marín, Rubén
 3. Ramírez Fabra, Javier
-4. Apellidos, Nombre
+4. Sicard Muñoz, Carlos
 
 ## 1. Introducción al problema
 
