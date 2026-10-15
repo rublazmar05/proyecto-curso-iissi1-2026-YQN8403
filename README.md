@@ -293,16 +293,6 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 #### 4.1.2. Reglas de negocio
 
-##### R.N.001. Introducción de email correcto
-
-Como jefe de Kumafu,
-quiero que el email de los usuarios contenga el caracter "@", para evitar que el usuario se cree con una dirección de correo falsa.
-
-##### R.N.002. Precios no negativos
-
-Como director de ventas,
-quiero garantizar que el precio de un producto sea mayor a cero, para asegurar que todos los productos den beneficios económicos.
-
 ##### R.N.003. Evitar compra de clientes con alta deuda
 
 Como jefe de Kumafu,
@@ -313,11 +303,6 @@ quiero los clientes con una deuda mayor o igual 500 no puedan solicitar más ped
 Como jefe de recursos humanos,
 quiero que los empleados no puedan gestionar más de 5 pedidos, para evitar sobrecarga de trabajo y garantizar la gestión de cada pedido de la forma más centrada posible.
 
-##### R.N.005. Rangos de valoración
-
-Como director de marketing,
-quiero que el valor de las valoraciones esté comprendido entre 1 y 5, para poder estudiar bajo esos rangos el nivel de satisfacción de los clientes.
-
 ##### R.N.006. Tiempo de devolución
 
 Como director de marketing,
@@ -327,36 +312,6 @@ quiero que solo se pueda devolver un producto si han pasado menos de 30 días, p
 
 Como jefe de Kumafu,
 quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan con más de un pago, para reducir el número de deudas a la venta al pormenor.
-
-##### R.N.008. Cantidad de producto positiva
-
-Como director de finanzas,
-quiero que para cada producto en un pedido haya una cantidad mayor a cero de ese producto, para evitar sinsentidos en los envíos y no guardar datos con valor nulo.
-
-##### R.N.009. Limitaciones en el stock
-
-Como director de finanzas,
-quiero garantizar que la cantidad de producto pedido sea siempre menor o igual que el stock, para no gestionar un pedido que no se puede realizar.
-
-##### R.N.010. Evitar precios negativos
-
-Como director de finanzas,
-quiero evitar poner a la venta un producto con su oferta aplicada a precio negativo, para evitar pérdidas de dinero a la empresa.
-
-##### R.N.011. Stocks no negativos
-
-Como director de finanzas,
-quiero que no exista stock negativo en  un producto, para evitar incoherencias.
-
-##### R.N.012. Gestionar fin de ofertas
-
-Como jefe director de marketing,
-quiero que el fin de la fecha de una oferta sea posterior al inicio de esta, para que una oferta sea realmente aplicada en un intervalo de tiempo.
-
-##### R.N.013. Introducción de email correcto
-
-Como jefe de Kumafu,
-quiero que todos los pagos sean de valor no negativos, para garantizar que siempre se reduce la deuda cuando se realiza un pago.
 
 ### 4.2. Mapa de historias de usuario (opcional)
 
