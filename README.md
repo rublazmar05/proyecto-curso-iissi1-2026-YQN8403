@@ -293,22 +293,22 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 #### 4.1.2. Reglas de negocio
 
-##### R.N.003. Evitar compra de clientes con alta deuda
+##### R.N.001. Evitar compra de clientes con alta deuda
 
 Como jefe de Kumafu,
 quiero los clientes con una deuda mayor o igual 500 no puedan solicitar más pedidos, para garantizar que solo puedan comprar las personas que acaban pagando sus deudas.
 
-##### R.N.004. Limitación de gestiones de pedido
+##### R.N.002. Limitación de gestiones de pedido
 
 Como jefe de recursos humanos,
 quiero que los empleados no puedan gestionar más de 5 pedidos, para evitar sobrecarga de trabajo y garantizar la gestión de cada pedido de la forma más centrada posible.
 
-##### R.N.006. Tiempo de devolución
+##### R.N.003. Tiempo de devolución
 
 Como director de marketing,
 quiero que solo se pueda devolver un producto si han pasado menos de 30 días, para no dar un márgen de prueba de los productos Kumafu demasiado alto.
 
-##### R.N.007. Limitaciones de pagos múltiples
+##### R.N.004. Limitaciones de pagos múltiples
 
 Como jefe de Kumafu,
 quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan con más de un pago, para reducir el número de deudas a la venta al pormenor.
@@ -329,7 +329,7 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 
 ### 5.1. Diagramas de clases UML
 
-![Diagrama de clases UML del sistema KUMAFU](imagenes/UML_kumafu_2.svg)
+![Diagrama de clases UML del sistema KUMAFU](imagenes/UML_kumafu_3.svg)
 
 ### 5.2. Escenarios de prueba
 
