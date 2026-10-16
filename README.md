@@ -49,7 +49,7 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - **Pedido:** Registro que confirma la intención de compra del usuario. Agrupa los productos seleccionados y calcula el total a partir de sus precios en el momento de la compra.
 - **Valoración:** Opinión de un usuario sobre un producto adquirido, compuesta por una puntuación del 1 al 5 y un comentario. Debe aprobarse antes de hacerse pública.
 - **Gastos de envío:** Coste adicional que se abonará al realizar un pedido a domicilio.
-- **Marketing:** Pûblicidad o técnicas que utiliza la marca para promocionarse.
+- **Marketing:** Publicidad o técnicas que utiliza la marca para promocionarse.
 - **Talla:** Tamaño o medida de una prenda o accesorio.
 - **Producto o prenda:** Artículo de ropa que vende KUMAFU. Tiene una talla de XS a XL o talla única, un color, un precio actual y una cantidad disponible en el almacén, que no puede ser negativa.
 
@@ -229,73 +229,105 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al consultar un producto, se muestran únicamente sus valoraciones aprobadas.
 - Cada valoración muestra su puntuación y comentario.
 - Una valoración pendiente de aprobación no aparece en la consulta pública.
-- Las puntuaciones mostradas están comprendidas entre 1 y 5, conforme a la regla de negocio R.N.005.
+- Las puntuaciones mostradas están comprendidas entre 1 y 5.
 - Si el producto no tiene valoraciones aprobadas, se informa de que todavía no hay valoraciones publicadas.
 
 #### 4.1.1. Requisitos de información
 
-##### R.I.01. Registro de usuarios, clientes y empleados
+##### R.I.01. Registro de productos
 
-- **Como:** Administrador
-- **Quiero:** registrar los datos de los usuarios (nombre, apellidos, email, contraseña y teléfono) y distinguir entre clientes y empleados. Para los clientes, también quiero registrar la dirección de envío
-- **Para:** gestionar las cuentas y disponer de la información necesaria para los pedidos y la gestión de la tienda.
-
-**Pruebas de aceptación**
-
-- Comprobar que se almacenan los atributos definidos para la clase **Usuario**.
-- Comprobar que cada cliente dispone de una dirección de envío.
-- Comprobar que el email introducido por el usuario contenga el carácter **"@"**, según la regla de negocio correspondiente (R.N.001).
-- Comprobar que se puede consultar la deuda del cliente como un valor calculado, no como un dato almacenado.
-
-##### R.I.02. Registro de productos y ofertas
-
-- **Como:** Encargado de almacén
-- **Quiero:** registrar y actualizar los datos de cada producto (nombre, descripción, talla, precio actual, stock, color y disponibilidad), así como las ofertas aplicadas a estos (porcentaje de descuento, fecha de inicio y fin).
-- **Para:** asegurar que el cliente vea el inventario real y compre con los precios y promociones correctos en cada momento.
+- **Como:** Encargado de almacén.
+- **Quiero:** Registrar los datos de cada producto (`nombre`, `descripcion` opcional, `valoración` opcional, `precio`, `stock` y `disponibilidad` derivada) junto con su relación con la talla (**tiene** `Talla`), los colores disponibles (**tiene** `Color`), las ofertas aplicadas (**ofrece** `Oferta`) y las líneas de pedido en las que se incluye (**Contiene** `LíneaPedido`).
+- **Para:** Disponer del catálogo de prendas actualizado con sus características, existencias y precios para su consulta y venta.
 
 **Pruebas de aceptación**
 
-- Comprobar que se pueden almacenar los datos definidos para **Producto**.
-- Comprobar que el sistema no permite guardar un producto con precio o stock con valor igual o inferior a cero. Se deben cumplir las reglas de negocio correspondientes (R.N.002 y R.N.011).
-- Comprobar que, cuando se informan ambas fechas de la oferta, la fecha de fin es posterior a la de inicio.
+- Comprobar que se almacenan los atributos definidos para la entidad **Producto** (`nombre`, `descripcion` [0..1], `valoración` [0..1], `precio` y `stock`) y que `/disponibilidad` se obtiene como atributo derivado.
+- Comprobar que cada producto se asocia obligatoriamente a una **Talla** (relación *tiene*, `1` a `1..*`) y al menos a un **Color** (relación *tiene*, `1..*` a `1..*`).
+- Comprobar que un producto puede estar asociado a cero o varias ofertas (**Oferta**) y formar parte de cero o varias líneas de pedido (**LíneaPedido**).
 
-##### R.I.03. Registro de pedidos y pagos
+##### R.I.02. Registro de ofertas
 
-- **Como:** Cliente
-- **Quiero:** que el sistema registre los pedidos, sus fechas de envío y confirmación, su estado y los pagos asociados, incluidos su cantidad, estado y método de pago.
-- **Para:** consultar el estado de mis pedidos y la información de los pagos resgistrados.
-
-**Pruebas de aceptación**
-
-- Comprobar que el pedido puede asociarse a un cliente y a los pagos correspondientes.
-- Comprobar que se registran la fecha de envío, la fecha de confirmación y el estado del pedido cuando corresponda.
-- Comprobar que cada pago almacena la cantidad y el estado definidos en **Pago**, y que se asocia a un método de pago.
-- Comprobar que el total del pedido y el importe por pagar se obtienen de acuerdo con los atributos derivados del diagrama.
-
-##### R.I.04. Registro del detalle de los pedidos
-
-- **Como:** Cliente
-- **Quiero:** que el sistema registre las líneas de cada pedido, indicando el producto y la cantidad correspondiente.
-- **Para:** conocer qué productos forman parte del pedido y cómo se obtiene su importe.
+- **Como:** Gerente de la tienda.
+- **Quiero:** Registrar las ofertas promocionales (`porcentajeDescuento`, `fechaInicio` y `fechaFin` opcional) y su relación con los productos a los que se aplican (**ofrece** `Producto`).
+- **Para:** Aplicar descuentos temporales a los productos del catálogo.
 
 **Pruebas de aceptación**
 
-- Comprobar que un pedido puede contener una o varias líneas de pedido.
-- Comprobar que el precio unitario y total se calculan conforme a los atributos derivados.
-- Comprobar que la cantidad solicitada es positiva y no supera el stock disponible.
+- Comprobar que se almacenan los atributos definidos para la entidad **Oferta** (`porcentajeDescuento`, `fechaInicio` y `fechaFin` [0..1]).
+- Comprobar que cada oferta se asocia a uno o varios productos mediante la relación **ofrece** (`Producto` `1..*` — `0..*` `Oferta`).
 
-##### R.I.05. Registro de devoluciones y datos de valoración del pedido
+##### R.I.03. Registro de pedidos
 
-- **Como:** Cliente 
-- **Quiero:** que el sistema registre las devoluciones asociadas a mis pedidos con su fecha de solicitud, descripción y estado, y que permita guardar la valoración y el comentario asociados al pedido. 
-- **Para:** realizar el seguimiento de las devoluciones y registrar mi opinión sobre la compra.
+- **Como:** Cliente.
+- **Quiero:** Que el sistema registre los pedidos (`fechaEnvío` opcional, `fechaConfirmacion` opcional, `valoración` opcional, `comentario` opcional y los datos derivados `precioTotal`, `estado`, `importePorPagar` y `esValorable`), así como sus relaciones con el cliente que lo realiza (**solicita** `Cliente`), el empleado que lo gestiona (**gestiona** `Empleado`), sus líneas de detalle (**Contiene** `LíneaPedido`), los pagos asociados (**tiene** `Pago`) y su posible devolución (**solicitaDevolucion** `Devolucion`).
+- **Para:** Realizar el seguimiento de las compras, su estado de tramitación, sus pagos, sus devoluciones y su valoración.
 
 **Pruebas de aceptación**
 
-- Comprobar que una devolución está asociada a un pedido y registra la fecha de solicitud, el estado y, si se proporciona, la descripción.
-- Comprobar que la valoración y el comentario pueden registrarse como datos opcionales del pedido.
-- Comprobar que la fecha de solicitud de la devolución tiene una diferencia menor a 30 días respecto a la fecha del pedido asociado. Se debe cumplir la regla de negocio R.N.006.
-- Comprobar que la calificación numérica asignada en la valoración se restringe estrictamente al rango del 1 al 5. Se debe cumplir la regla de negocio R.N.005.
+- Comprobar que se almacenan los atributos definidos para la entidad **Pedido** (`fechaEnvío` [0..1], `fechaConfirmacion` [0..1], `valoración` [0..1] y `comentario` [0..1]) y se calculan sus atributos derivados (`/precioTotal`, `/estado`, `/importePorPagar` y `/esValorable`).
+- Comprobar que todo pedido está asociado a un único **Cliente** que lo solicita (`1` a `0..*`), a un único **Empleado** que lo gestiona (`1` a `0..*`) y contiene al menos una **LíneaPedido** (`1..*`).
+- Comprobar que un pedido puede tener asociados uno o varios pagos (**Pago**, `0..*`) y como máximo una **Devolucion** (`0..1`).
+- Comprobar que no se permite registrar un nuevo pedido para un cliente cuya deuda sea mayor o igual a 500 euros, conforme a la regla de negocio **R.N.001**.
+- Comprobar que un empleado no puede tener asignados más de 5 pedidos, conforme a la regla de negocio **R.N.002**.
+
+##### R.I.04. Registro de líneas de pedido
+
+- **Como:** Cliente.
+- **Quiero:** Que el sistema registre cada línea de pedido (`cantidadPedida` y `/precioUnitario` derivado) vinculando el pedido al que pertenece y el producto solicitado (**Contiene** entre `Pedido` y `Producto`).
+- **Para:** Conocer el detalle de prendas, cantidades e importes unitarios que componen cada pedido.
+
+**Pruebas de aceptación**
+
+- Comprobar que la clase asociativa **LíneaPedido** almacena la `cantidadPedida` y calcula el atributo derivado `/precioUnitario`.
+- Comprobar que cada **LíneaPedido** vincula un **Pedido** (que debe tener al menos una línea, `1..*`) con un **Producto** (`0..*`).
+
+##### R.I.05. Registro de pagos
+
+- **Como:** Cliente.
+- **Quiero:** Que el sistema registre los pagos realizados (`cantidad` y `estado`), asociando cada pago con el pedido correspondiente (**tiene** `Pedido`) y con el método de pago empleado (**usa** `MétodoPago`).
+- **Para:** Llevar el control de los importes abonados y pendientes de cada pedido.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacenan los atributos definidos para la entidad **Pago** (`cantidad` y `estado`: *EnProceso*, *Confirmado* o *Fallido*).
+- Comprobar que cada pago está asociado obligatoriamente a un **Pedido** (relación *tiene*, `1` a `0..*`) y utiliza un único **MétodoPago** (relación *usa*, `0..*` a `1`).
+- Comprobar que si el importe total del pedido es inferior a 500 euros no se permite registrar más de un pago para dicho pedido, conforme a la regla de negocio **R.N.004**.
+
+##### R.I.06. Registro de métodos de pago
+
+- **Como:** Cliente.
+- **Quiero:** Registrar los métodos de pago disponibles (`nombre`) y su vinculación con los pagos realizados (**usa** `Pago`).
+- **Para:** Identificar el medio utilizado al abonar cada transacción.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacena el atributo `nombre` definido para la entidad **MétodoPago**.
+- Comprobar que un **MétodoPago** puede estar asociado a cero o varios pagos (**Pago**, `0..*`) mediante la relación **usa**.
+
+##### R.I.07. Registro de usuarios, clientes y empleados
+
+- **Como:** Administrador.
+- **Quiero:** Registrar los datos de la entidad **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono`), diferenciando mediante jerarquía completa y disjunta entre **Cliente** (`direccionEnvio` y `/deuda` derivada, relacionado con **Pedido** mediante **solicita**) y **Empleado** (`fechaContratación` y `salario`, relacionado con **Pedido** mediante **gestiona**).
+- **Para:** Gestionar las cuentas de acceso al sistema, los envíos y deudas de los clientes, y la asignación de pedidos a los empleados.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacenan los atributos de **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono` [0..1]) y que todo usuario es exclusivamente **Cliente** o **Empleado** (`{complete, disjoint}`).
+- Comprobar que para cada **Cliente** se almacena su `direccionEnvio`, se calcula su atributo derivado `/deuda` y se relaciona con los pedidos que solicita (`0..*`), impidiendo nuevas solicitudes si alcanza o supera los 500 euros de deuda (**R.N.001**).
+- Comprobar que para cada **Empleado** se almacenan su `fechaContratación` y `salario`, y se relaciona con los pedidos que gestiona (`0..*`), sin superar el límite de 5 pedidos gestionados (**R.N.002**).
+
+##### R.I.08. Registro de devoluciones
+
+- **Como:** Cliente.
+- **Quiero:** Que el sistema registre las solicitudes de devolución (`fechaSolicitud`, `descripción` opcional y `estado`), asociándolas con el pedido correspondiente (**solicitaDevolucion** `Pedido`).
+- **Para:** Gestionar y consultar el estado de las devoluciones solicitadas sobre mis compras.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacenan los atributos definidos para la entidad **Devolucion** (`fechaSolicitud`, `descripción` [0..1] y `estado`: *Enviado*, *EnRevision*, *Aceptada* o *Rechazada*).
+- Comprobar que cada **Devolucion** se asocia obligatoriamente a un único **Pedido** (relación *solicitaDevolucion*, `0..1` a `1`).
+- Comprobar que solo se permite registrar una devolución si han transcurrido menos de 30 días respecto al pedido asociado, conforme a la regla de negocio **R.N.003**.
 
 
 #### 4.1.2. Reglas de negocio
