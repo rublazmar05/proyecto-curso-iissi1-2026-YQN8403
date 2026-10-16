@@ -103,6 +103,11 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - **Quiero:** Ofrecer un servicio seguro y eficaz de devoluciones.
 - **Para:** Que el cliente disponga de facilidades si hay algún problema con el envío o el reparto (producto defectuoso, mensajes de envío realizado fraudulentos, etc.).
 
+#### OBJ-006: Gestionar las devoluciones
+- **Como:** Cliente.
+- **Quiero:** Tener la capacidad para valorar la calidad del encvío y producto.
+- **Para:** Mostrar mi descontento o aprobación con el servicio recibido.
+
 ### 3.2. Usuarios del sistema
 
 - Administrador: Gestiona la configuración del sistema y tiene la totalidad de su control.
@@ -119,11 +124,11 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 ### 4.1. Requisitos funcionales
 
-#### R.F.01. Consultar el catálogo de productos
+#### R.F.01 Consultar el catálogo de productos
 
-- **Como:** cliente.
-- **Quiero:** consultar los productos del catálogo y filtrarlos por tipo de prenda, talla y color.
-- **Para:** encontrar prendas que se ajusten a mis preferencias y conocer su disponibilidad y precio.
+- **Como:** Cliente.
+- **Quiero:** Consultar los productos del catálogo y filtrarlos por tipo de prenda, talla y color.
+- **Para:** Encontrar prendas que se ajusten a mis preferencias y conocer su disponibilidad y precio.
 
 **Pruebas de aceptación**
 
@@ -132,11 +137,12 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Para cada producto se muestran su nombre, talla, color, precio y disponibilidad.
 - Si ningún producto cumple los filtros, se informa de que no hay resultados.
 
-#### R.F.02. Consultar el historial y el detalle de los pedidos
 
-- **Como:** cliente.
-- **Quiero:** consultar mis pedidos y acceder al detalle de cada uno.
-- **Para:** conocer qué he comprado y en qué estado se encuentra cada pedido.
+#### R.F.02.1 Consultar el historial y el detalle de los pedidos
+
+- **Como:** Cliente.
+- **Quiero:** Consultar mis pedidos y acceder al detalle de cada uno.
+- **Para:** Conocer qué he comprado y en qué estado se encuentra cada pedido.
 
 **Pruebas de aceptación**
 
@@ -145,24 +151,11 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al consultar su detalle, se muestran los productos, sus cantidades y los precios que tenían en el momento de la compra.
 - Si el cliente no tiene pedidos, se informa de que su historial está vacío.
 
-#### R.F.03. Consultar las existencias de productos
+#### R.F.02.2 Consultar los pagos y el importe pendiente de un pedido
 
-- **Como:** encargado de almacén.
-- **Quiero:** consultar las existencias de los productos por talla y color.
-- **Para:** conocer las unidades disponibles y detectar los productos agotados.
-
-**Pruebas de aceptación**
-
-- La consulta muestra la cantidad disponible de cada producto, identificando su talla y color.
-- Al filtrar por un producto, se muestran únicamente las existencias correspondientes a ese producto.
-- Al consultar los productos agotados, se muestran únicamente aquellos cuyo stock es cero.
-- Si ningún producto cumple los criterios seleccionados, se informa de que no hay resultados.
-
-#### R.F.04. Consultar los pagos y el importe pendiente de un pedido
-
-- **Como:** cliente.
-- **Quiero:** consultar los pagos registrados de mis pedidos y su importe pendiente.
-- **Para:** comprobar cuánto he pagado y cuánto queda por abonar.
+- **Como:** Cliente.
+- **Quiero:** Consultar los pagos registrados de mis pedidos y su importe pendiente.
+- **Para:** Comprobar cuánto he pagado y cuánto queda por abonar.
 
 **Pruebas de aceptación**
 
@@ -172,11 +165,25 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Si un pedido no tiene pagos registrados, se informa de ello y su importe pendiente coincide con el total del pedido.
 - Si el pedido está completamente pagado, su importe pendiente es cero.
 
-#### R.F.05. Consultar los pedidos gestionados por un empleado
+#### R.F.02.3 Consultar los métodos de pago guardados
 
-- **Como:** gerente de la tienda.
-- **Quiero:** consultar los pedidos gestionados por un empleado y filtrarlos por estado.
-- **Para:** supervisar la distribución del trabajo y el seguimiento de los pedidos.
+- **Como:** Cliente.
+- **Quiero:** Consultar los métodos de pago que tengo guardados en mi cuenta.
+- **Para:** Conocer las opciones de pago que tengo disponibles para futuras compras.
+
+**Pruebas de aceptación**
+
+- La consulta muestra únicamente los métodos de pago guardados por el cliente que realiza la consulta.
+- Para cada método se muestran su tipo y una referencia que permita distinguirlo de los demás.
+- Las tarjetas se identifican mediante su marca y sus cuatro últimos dígitos, sin mostrar el número completo ni el código de seguridad.
+- Si el cliente no tiene métodos de pago guardados, se informa de ello.
+
+
+#### R.F.03 Consultar los pedidos gestionados por un empleado
+
+- **Como:** Gerente de la tienda.
+- **Quiero:** Consultar los pedidos gestionados por un empleado y filtrarlos por estado.
+- **Para:** Supervisar la distribución del trabajo y el seguimiento de los pedidos.
 
 **Pruebas de aceptación**
 
@@ -185,11 +192,24 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al seleccionar un estado, se muestran únicamente los pedidos del empleado que se encuentran en ese estado.
 - Si el empleado no tiene pedidos que cumplan los criterios, se informa de que no hay resultados.
 
-#### R.F.06. Consultar las solicitudes de devolución
+#### R.F.04 Consultar las existencias de productos
 
-- **Como:** cliente.
-- **Quiero:** consultar mis solicitudes de devolución y su estado.
-- **Para:** realizar un seguimiento de las devoluciones que he solicitado.
+- **Como:** Encargado de almacén.
+- **Quiero:** Consultar las existencias de los productos por talla y color.
+- **Para:** Conocer las unidades disponibles y detectar los productos agotados.
+
+**Pruebas de aceptación**
+
+- La consulta muestra la cantidad disponible de cada producto, identificando su talla y color.
+- Al filtrar por un producto, se muestran únicamente las existencias correspondientes a ese producto.
+- Al consultar los productos agotados, se muestran únicamente aquellos cuyo stock es cero.
+- Si ningún producto cumple los criterios seleccionados, se informa de que no hay resultados.
+
+#### R.F.05 Consultar las solicitudes de devolución
+
+- **Como:** Cliente.
+- **Quiero:** Consultar mis solicitudes de devolución y su estado.
+- **Para:** Realizar un seguimiento de las devoluciones que he solicitado.
 
 **Pruebas de aceptación**
 
@@ -198,11 +218,11 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al seleccionar una solicitud, se muestra la información correspondiente a esa devolución.
 - Si el cliente no ha solicitado devoluciones, se informa de que no hay solicitudes registradas.
 
-#### R.F.07. Consultar las valoraciones de un producto
+#### R.F.06 Consultar las valoraciones de un producto
 
-- **Como:** cliente.
-- **Quiero:** consultar las valoraciones publicadas de un producto.
-- **Para:** conocer la opinión de otros compradores antes de decidir mi compra.
+- **Como:** Cliente.
+- **Quiero:** Consultar las valoraciones publicadas de un producto.
+- **Para:** Conocer la opinión de otros compradores antes de decidir mi compra.
 
 **Pruebas de aceptación**
 
@@ -211,19 +231,6 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Una valoración pendiente de aprobación no aparece en la consulta pública.
 - Las puntuaciones mostradas están comprendidas entre 1 y 5, conforme a la regla de negocio R.N.005.
 - Si el producto no tiene valoraciones aprobadas, se informa de que todavía no hay valoraciones publicadas.
-
-#### R.F.08. Consultar los métodos de pago guardados
-
-- **Como:** cliente.
-- **Quiero:** consultar los métodos de pago que tengo guardados en mi cuenta.
-- **Para:** conocer las opciones de pago que tengo disponibles para futuras compras.
-
-**Pruebas de aceptación**
-
-- La consulta muestra únicamente los métodos de pago guardados por el cliente que realiza la consulta.
-- Para cada método se muestran su tipo y una referencia que permita distinguirlo de los demás.
-- Las tarjetas se identifican mediante su marca y sus cuatro últimos dígitos, sin mostrar el número completo ni el código de seguridad.
-- Si el cliente no tiene métodos de pago guardados, se informa de ello.
 
 #### 4.1.1. Requisitos de información
 
