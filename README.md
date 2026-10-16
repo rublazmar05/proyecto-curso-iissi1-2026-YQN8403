@@ -124,113 +124,317 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 ### 4.1. Requisitos funcionales
 
-#### R.F.01 Consultar el catálogo de productos
+#### R.F.1.1. Crear cuentas de usuario
 
-- **Como:** Cliente.
-- **Quiero:** Consultar los productos del catálogo y filtrarlos por tipo de prenda, talla y color.
-- **Para:** Encontrar prendas que se ajusten a mis preferencias y conocer su disponibilidad y precio.
+- **Como:** administrador.
+- **Quiero:** registrar nuevas cuentas de usuario, indicando sus datos y si corresponden a clientes o empleados.
+- **Para:** dar acceso al sistema a los usuarios de la tienda.
 
 **Pruebas de aceptación**
 
-- Al consultar el catálogo sin filtros, se muestran todos los productos del catálogo.
+- Al introducir los datos obligatorios, se crea la cuenta con el tipo de usuario seleccionado.
+- Si faltan datos obligatorios, se informa del problema y no se crea la cuenta.
+- La cuenta creada aparece en la consulta de usuarios.
+
+#### R.F.1.2. Consultar cuentas de usuario
+
+- **Como:** administrador.
+- **Quiero:** consultar las cuentas de los usuarios y sus datos.
+- **Para:** disponer de la información de los clientes y empleados de la tienda.
+
+**Pruebas de aceptación**
+
+- Se muestra el listado de usuarios registrados.
+- Al seleccionar un usuario, se muestran sus datos y su tipo de cuenta.
+- Si no hay usuarios registrados, se informa de que no hay resultados.
+
+#### R.F.1.3. Modificar cuentas de usuario
+
+- **Como:** administrador.
+- **Quiero:** modificar los datos de las cuentas de usuario.
+- **Para:** mantener actualizada la información de los clientes y empleados.
+
+**Pruebas de aceptación**
+
+- Al seleccionar una cuenta e introducir datos válidos, se guardan los cambios.
+- Si se deja vacío un dato obligatorio, se informa del problema y se conserva la información anterior.
+- Al consultar de nuevo la cuenta, se muestran los datos actualizados.
+
+#### R.F.1.4. Eliminar cuentas de usuario
+
+- **Como:** administrador.
+- **Quiero:** dar de baja cuentas de usuario.
+- **Para:** retirar el acceso a quienes ya no deban utilizar el sistema.
+
+**Pruebas de aceptación**
+
+- Se solicita confirmación antes de dar de baja una cuenta.
+- Si se confirma la baja, la cuenta deja de permitir el acceso al sistema.
+- Si se cancela la operación, la cuenta permanece activa.
+- La baja conserva la información histórica de los pedidos asociados.
+
+#### R.F.2.1. Crear mi cuenta de cliente
+
+- **Como:** cliente.
+- **Quiero:** registrarme introduciendo mis datos personales y de acceso.
+- **Para:** disponer de una cuenta con la que realizar y consultar mis compras.
+
+**Pruebas de aceptación**
+
+- Al introducir los datos obligatorios, se crea una cuenta de cliente.
+- Si faltan datos obligatorios, se informa del problema y no se completa el registro.
+- Una vez creada la cuenta, el cliente puede acceder a ella con sus credenciales.
+
+#### R.F.2.2. Consultar mi cuenta de cliente
+
+- **Como:** cliente.
+- **Quiero:** consultar mis datos personales, mi dirección de envío y mis métodos de pago guardados.
+- **Para:** comprobar la información disponible para realizar mis pedidos.
+
+**Pruebas de aceptación**
+
+- El cliente puede consultar únicamente los datos de su propia cuenta.
+- Se muestran sus datos personales y su dirección de envío.
+- Se muestran sus métodos de pago guardados, identificando las tarjetas mediante su marca y sus cuatro últimos dígitos.
+- Si no tiene métodos de pago guardados, se informa de ello.
+
+#### R.F.2.3. Modificar mi cuenta de cliente
+
+- **Como:** cliente.
+- **Quiero:** modificar mis datos personales y mi dirección de envío.
+- **Para:** mantener actualizada la información utilizada en mis próximas compras.
+
+**Pruebas de aceptación**
+
+- El cliente puede modificar únicamente los datos de su propia cuenta.
+- Al introducir datos válidos, los cambios se guardan y aparecen en las consultas posteriores.
+- Si se deja vacío un dato obligatorio, se informa del problema y se conserva la información anterior.
+- El cambio de dirección no modifica la dirección de entrega de los pedidos ya confirmados.
+
+#### R.F.2.4. Eliminar mi cuenta de cliente
+
+- **Como:** cliente.
+- **Quiero:** dar de baja mi cuenta.
+- **Para:** dejar de utilizar mi cuenta en la tienda.
+
+**Pruebas de aceptación**
+
+- El cliente puede solicitar la baja únicamente de su propia cuenta.
+- Se solicita confirmación antes de realizar la baja.
+- Al confirmar la operación, la cuenta deja de permitir el acceso al sistema.
+- Si se cancela la operación, la cuenta permanece activa.
+- Se conserva la información histórica de los pedidos asociados.
+
+#### R.F.3.1. Crear pedidos
+
+- **Como:** encargado de almacén.
+- **Quiero:** registrar un pedido asociado a un cliente, indicando sus productos y cantidades.
+- **Para:** disponer de la información necesaria para preparar su envío.
+
+**Pruebas de aceptación**
+
+- Al introducir datos válidos, se crea un pedido asociado al cliente seleccionado.
+- El pedido contiene al menos una línea con un producto y una cantidad entera positiva.
+- Si alguna cantidad solicitada supera el stock disponible, se informa del problema y no se registra el pedido.
+- Si el cliente tiene una deuda mayor o igual a 500 euros, se rechaza la creación del pedido conforme a R.N.001.
+- Si la asignación del pedido a un empleado incumple R.N.002, se rechaza dicha asignación.
+
+#### R.F.3.2. Consultar pedidos
+
+- **Como:** encargado de almacén.
+- **Quiero:** consultar los pedidos, sus detalles y el empleado encargado de gestionarlos, con filtros por empleado y estado.
+- **Para:** organizar la preparación de los envíos y realizar su seguimiento.
+
+**Pruebas de aceptación**
+
+- Para cada pedido se muestran su identificador, cliente, estado y empleado asignado.
+- Al consultar el detalle, se muestran los productos, sus cantidades, el importe total y las fechas de confirmación y envío cuando existan.
+- La consulta permite conocer los pagos registrados y el importe pendiente del pedido.
+- Al filtrar por empleado y estado, se muestran únicamente los pedidos que cumplen ambos criterios.
+- Si ningún pedido cumple los filtros, se informa de que no hay resultados.
+
+#### R.F.3.3. Modificar pedidos
+
+- **Como:** encargado de almacén.
+- **Quiero:** actualizar el estado, la información de envío y el empleado asignado a un pedido.
+- **Para:** reflejar el avance de su preparación y entrega.
+
+**Pruebas de aceptación**
+
+- Al modificar un pedido con datos válidos, los cambios quedan registrados.
+- Al registrar su envío, se guarda la fecha de envío correspondiente.
+- Si un cambio de empleado incumple R.N.002, se rechaza la reasignación y se conserva el empleado anterior.
+- Al consultar nuevamente el pedido, se muestra la información actualizada.
+
+#### R.F.3.4. Eliminar pedidos
+
+- **Como:** encargado de almacén.
+- **Quiero:** eliminar pedidos registrados por error que todavía no se hayan confirmado ni tengan pagos asociados.
+- **Para:** corregir registros incorrectos antes de iniciar su tramitación.
+
+**Pruebas de aceptación**
+
+- Se solicita confirmación antes de eliminar un pedido.
+- Si el pedido no está confirmado ni tiene pagos asociados, se elimina junto con sus líneas.
+- Si el pedido está confirmado o tiene pagos asociados, se rechaza la eliminación y se informa del motivo.
+- Si se cancela la operación, el pedido permanece sin cambios.
+
+#### R.F.4.1. Crear productos
+
+- **Como:** gerente de la tienda.
+- **Quiero:** registrar nuevos productos con su nombre, descripción, talla, color, precio y stock.
+- **Para:** incorporar nuevas prendas al catálogo.
+
+**Pruebas de aceptación**
+
+- Al introducir los datos obligatorios y válidos, se registra el producto.
+- El precio debe ser mayor que cero y el stock debe ser un número entero mayor o igual que cero.
+- Si faltan datos obligatorios o se introducen valores no válidos, se informa del problema y no se crea el producto.
+- El producto creado aparece en la consulta del catálogo.
+
+#### R.F.4.2. Consultar productos
+
+- **Como:** gerente de la tienda.
+- **Quiero:** consultar los productos y sus existencias, con filtros por tipo de prenda, talla, color y disponibilidad.
+- **Para:** conocer el estado del catálogo y detectar los productos agotados.
+
+**Pruebas de aceptación**
+
+- Para cada producto se muestran su nombre, descripción, talla, color, precio y stock.
 - Al aplicar varios filtros, se muestran únicamente los productos que cumplen todos los criterios seleccionados.
-- Para cada producto se muestran su nombre, talla, color, precio y disponibilidad.
+- Al consultar productos agotados, se muestran únicamente aquellos cuyo stock es cero.
 - Si ningún producto cumple los filtros, se informa de que no hay resultados.
 
+#### R.F.4.3. Modificar productos
 
-#### R.F.02.1 Consultar el historial y el detalle de los pedidos
-
-- **Como:** Cliente.
-- **Quiero:** Consultar mis pedidos y acceder al detalle de cada uno.
-- **Para:** Conocer qué he comprado y en qué estado se encuentra cada pedido.
-
-**Pruebas de aceptación**
-
-- El listado muestra únicamente los pedidos del cliente que realiza la consulta, ordenados desde el más reciente.
-- Para cada pedido se muestran su identificador, fecha, importe total y estado.
-- Al consultar su detalle, se muestran los productos, sus cantidades y los precios que tenían en el momento de la compra.
-- Si el cliente no tiene pedidos, se informa de que su historial está vacío.
-
-#### R.F.02.2 Consultar los pagos y el importe pendiente de un pedido
-
-- **Como:** Cliente.
-- **Quiero:** Consultar los pagos registrados de mis pedidos y su importe pendiente.
-- **Para:** Comprobar cuánto he pagado y cuánto queda por abonar.
+- **Como:** gerente de la tienda.
+- **Quiero:** modificar los datos y el stock de los productos.
+- **Para:** mantener actualizado el catálogo y la disponibilidad de las prendas.
 
 **Pruebas de aceptación**
 
-- El cliente puede consultar únicamente los pagos de sus propios pedidos.
-- Para cada pago se muestran su identificador de transacción, importe y método de pago.
-- Para un pedido de 600 euros con un pago registrado de 200 euros, se muestran 200 euros abonados y 400 euros pendientes.
-- Si un pedido no tiene pagos registrados, se informa de ello y su importe pendiente coincide con el total del pedido.
-- Si el pedido está completamente pagado, su importe pendiente es cero.
+- Al seleccionar un producto e introducir datos válidos, se guardan los cambios.
+- Se rechazan los cambios que establezcan un precio menor o igual que cero o un stock negativo.
+- Se permite establecer el stock en cero para reflejar que el producto está agotado.
+- Al consultar nuevamente el producto, se muestran los datos actualizados.
 
-#### R.F.02.3 Consultar los métodos de pago guardados
+#### R.F.4.4. Eliminar productos
 
-- **Como:** Cliente.
-- **Quiero:** Consultar los métodos de pago que tengo guardados en mi cuenta.
-- **Para:** Conocer las opciones de pago que tengo disponibles para futuras compras.
-
-**Pruebas de aceptación**
-
-- La consulta muestra únicamente los métodos de pago guardados por el cliente que realiza la consulta.
-- Para cada método se muestran su tipo y una referencia que permita distinguirlo de los demás.
-- Las tarjetas se identifican mediante su marca y sus cuatro últimos dígitos, sin mostrar el número completo ni el código de seguridad.
-- Si el cliente no tiene métodos de pago guardados, se informa de ello.
-
-
-#### R.F.03 Consultar los pedidos gestionados por un empleado
-
-- **Como:** Gerente de la tienda.
-- **Quiero:** Consultar los pedidos gestionados por un empleado y filtrarlos por estado.
-- **Para:** Supervisar la distribución del trabajo y el seguimiento de los pedidos.
+- **Como:** gerente de la tienda.
+- **Quiero:** retirar productos del catálogo.
+- **Para:** dejar de ofrecer prendas que ya no se comercializan.
 
 **Pruebas de aceptación**
 
-- Al seleccionar un empleado, se muestran únicamente los pedidos que tiene asociados.
-- Para cada pedido se muestran su identificador, fecha y estado.
-- Al seleccionar un estado, se muestran únicamente los pedidos del empleado que se encuentran en ese estado.
-- Si el empleado no tiene pedidos que cumplan los criterios, se informa de que no hay resultados.
+- Se solicita confirmación antes de retirar un producto.
+- Una vez retirado, el producto deja de estar disponible para nuevos pedidos.
+- Los pedidos anteriores conservan la información del producto retirado.
+- Si se cancela la operación, el producto permanece disponible en las mismas condiciones.
 
-#### R.F.04 Consultar las existencias de productos
+#### R.F.5.1. Crear solicitudes de devolución
 
-- **Como:** Encargado de almacén.
-- **Quiero:** Consultar las existencias de los productos por talla y color.
-- **Para:** Conocer las unidades disponibles y detectar los productos agotados.
-
-**Pruebas de aceptación**
-
-- La consulta muestra la cantidad disponible de cada producto, identificando su talla y color.
-- Al filtrar por un producto, se muestran únicamente las existencias correspondientes a ese producto.
-- Al consultar los productos agotados, se muestran únicamente aquellos cuyo stock es cero.
-- Si ningún producto cumple los criterios seleccionados, se informa de que no hay resultados.
-
-#### R.F.05 Consultar las solicitudes de devolución
-
-- **Como:** Cliente.
-- **Quiero:** Consultar mis solicitudes de devolución y su estado.
-- **Para:** Realizar un seguimiento de las devoluciones que he solicitado.
+- **Como:** gerente de la tienda.
+- **Quiero:** registrar una solicitud de devolución asociada al pedido de un cliente.
+- **Para:** iniciar la gestión de las incidencias comunicadas por el cliente.
 
 **Pruebas de aceptación**
 
-- El listado muestra únicamente las solicitudes de devolución del cliente que realiza la consulta.
-- Para cada solicitud se muestran el pedido asociado, la fecha de solicitud y su estado.
-- Al seleccionar una solicitud, se muestra la información correspondiente a esa devolución.
-- Si el cliente no ha solicitado devoluciones, se informa de que no hay solicitudes registradas.
+- Al seleccionar un pedido válido, se registra la solicitud con su fecha, descripción si se proporciona y estado inicial.
+- La solicitud queda asociada al pedido seleccionado.
+- Se permite registrar la solicitud si han transcurrido menos de 30 días desde la fecha del pedido, conforme a R.N.003.
+- Si han transcurrido 30 días o más, se rechaza la solicitud y se informa del motivo.
 
-#### R.F.06 Consultar las valoraciones de un producto
+#### R.F.5.2. Consultar solicitudes de devolución
 
-- **Como:** Cliente.
-- **Quiero:** Consultar las valoraciones publicadas de un producto.
-- **Para:** Conocer la opinión de otros compradores antes de decidir mi compra.
+- **Como:** gerente de la tienda.
+- **Quiero:** consultar las solicitudes de devolución y filtrarlas por estado.
+- **Para:** conocer las incidencias pendientes y realizar su seguimiento.
 
 **Pruebas de aceptación**
 
-- Al consultar un producto, se muestran únicamente sus valoraciones aprobadas.
-- Cada valoración muestra su puntuación y comentario.
-- Una valoración pendiente de aprobación no aparece en la consulta pública.
-- Las puntuaciones mostradas están comprendidas entre 1 y 5, conforme a la regla de negocio R.N.005.
-- Si el producto no tiene valoraciones aprobadas, se informa de que todavía no hay valoraciones publicadas.
+- Para cada solicitud se muestran el pedido asociado, el cliente, la fecha de solicitud y el estado.
+- Al seleccionar una solicitud, se muestra su descripción si se ha proporcionado.
+- Al filtrar por estado, se muestran únicamente las solicitudes que coinciden con el estado seleccionado.
+- Si no existen solicitudes que cumplan los criterios, se informa de que no hay resultados.
+
+#### R.F.5.3. Modificar solicitudes de devolución
+
+- **Como:** gerente de la tienda.
+- **Quiero:** actualizar el estado y la descripción de las solicitudes de devolución.
+- **Para:** reflejar el avance de su gestión y completar la información de las incidencias.
+
+**Pruebas de aceptación**
+
+- Al seleccionar una solicitud e introducir cambios válidos, se guarda la información actualizada.
+- La modificación conserva el pedido asociado y la fecha original de solicitud.
+- Al consultar nuevamente la solicitud, se muestran los cambios realizados.
+- Si se cancela la modificación, se conserva la información anterior.
+
+#### R.F.5.4. Eliminar solicitudes de devolución
+
+- **Como:** gerente de la tienda.
+- **Quiero:** eliminar solicitudes registradas por error cuya tramitación todavía no haya comenzado.
+- **Para:** evitar la gestión de solicitudes incorrectas o duplicadas.
+
+**Pruebas de aceptación**
+
+- Se solicita confirmación antes de eliminar una solicitud.
+- Si su tramitación no ha comenzado, la solicitud se elimina y deja de aparecer en las consultas.
+- Si su tramitación ya ha comenzado, se rechaza la eliminación y se informa del motivo.
+- La eliminación de la solicitud no elimina el pedido asociado.
+
+#### R.F.6.1. Crear valoraciones
+
+- **Como:** cliente.
+- **Quiero:** registrar una puntuación y un comentario sobre un pedido recibido.
+- **Para:** expresar mi satisfacción con los productos y el servicio de entrega.
+
+**Pruebas de aceptación**
+
+- El cliente puede valorar únicamente sus propios pedidos recibidos.
+- Se permite registrar una puntuación entera entre 1 y 5 y un comentario.
+- Si la puntuación está fuera del rango permitido, se rechaza la valoración y se informa del problema.
+- Si el pedido ya tiene una valoración, se indica que debe modificar la existente.
+
+#### R.F.6.2. Consultar valoraciones
+
+- **Como:** cliente.
+- **Quiero:** consultar las valoraciones que he realizado sobre mis pedidos.
+- **Para:** revisar las opiniones que he registrado sobre mis compras.
+
+**Pruebas de aceptación**
+
+- La consulta muestra únicamente las valoraciones realizadas por el cliente.
+- Para cada valoración se muestran el pedido asociado, la puntuación y el comentario.
+- Al consultar un pedido sin valoración, se informa de que todavía no se ha valorado.
+- Si el cliente no ha realizado ninguna valoración, se informa de ello.
+
+#### R.F.6.3. Modificar valoraciones
+
+- **Como:** cliente.
+- **Quiero:** modificar la puntuación y el comentario de mis valoraciones.
+- **Para:** corregir o actualizar mi opinión sobre una compra.
+
+**Pruebas de aceptación**
+
+- El cliente puede modificar únicamente sus propias valoraciones.
+- Al introducir una puntuación entera entre 1 y 5, se guardan los cambios.
+- Si la puntuación no es válida, se rechaza la modificación y se conserva la valoración anterior.
+- Al consultar nuevamente la valoración, se muestran la puntuación y el comentario actualizados.
+
+#### R.F.6.4. Eliminar valoraciones
+
+- **Como:** cliente.
+- **Quiero:** eliminar las valoraciones que he realizado.
+- **Para:** retirar una opinión que ya no deseo mantener registrada.
+
+**Pruebas de aceptación**
+
+- El cliente puede eliminar únicamente sus propias valoraciones.
+- Se solicita confirmación antes de eliminar una valoración.
+- Al confirmar la eliminación, el pedido deja de tener la puntuación y el comentario asociados.
+- La eliminación de la valoración no elimina ni modifica el resto de los datos del pedido.
+- Si se cancela la operación, la valoración permanece sin cambios.
 
 #### 4.1.1. Requisitos de información
 
