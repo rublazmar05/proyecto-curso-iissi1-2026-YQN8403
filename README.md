@@ -356,11 +356,35 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 
 ### 4.3. Requisitos no funcionales (opcional)
 
-**R.N.F.01. Título del requisito no funcional**
+#### R.N.F.01. Tiempo de respuesta en consultas del catálogo
 
-- **Como:** [tipo de usuario]
-- **Quiero:** [servicio]
-- **Para:** [razón]
+- **Como:** Cliente.
+- **Quiero:** Que las consultas y el filtrado de productos por talla, color o tipo de prenda respondan en menos de 2 segundos.
+- **Para:** Navegar por el catálogo de forma fluida sin tiempos de espera que dificulten la compra.
+
+#### R.N.F.02. Protección de credenciales y datos de pago
+
+- **Como:** Administrador.
+- **Quiero:** Que las contraseñas de los usuarios se almacenen de forma cifrada y que nunca se expongan datos sensibles completos de los métodos de pago en las consultas.
+- **Para:** Garantizar la privacidad y la seguridad de la información personal y financiera de los clientes y empleados.
+
+#### R.N.F.03. Integridad transaccional en pedidos y pagos
+
+- **Como:** Gerente de la tienda.
+- **Quiero:** Que el registro de pedidos, sus líneas de detalle, los pagos y las actualizaciones de stock se ejecuten de forma atómica (propiedades ACID).
+- **Para:** Evitar inconsistencias en el inventario o en el cálculo de la deuda del cliente ante posibles fallos del sistema durante una compra.
+
+#### R.N.F.04. Compatibilidad con el gestor de base de datos
+
+- **Como:** Administrador.
+- **Quiero:** Que la persistencia de datos, restricciones declarativas, procedimientos y disparadores funcionen íntegramente sobre un servidor de bases de datos MariaDB.
+- **Para:** Asegurar la portabilidad, el despliegue estandarizado y el cumplimiento de la normativa técnica del sistema.
+
+#### R.N.F.05. Usabilidad y diseño adaptable de la interfaz web
+
+- **Como:** Cliente.
+- **Quiero:** Que la interfaz web de la tienda sea intuitiva y se adapte correctamente tanto a ordenadores como a dispositivos móviles.
+- **Para:** Poder consultar el catálogo, realizar pedidos y gestionar devoluciones cómodamente desde cualquier dispositivo.
 
 ---
 
