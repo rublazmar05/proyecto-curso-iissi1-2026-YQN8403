@@ -88,10 +88,10 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - **Quiero:** Tener la capacidad para gestionar la información de su propia cuenta.
 - **Para:** Su uso en los pedidos a realizar (dirección deseada, horarios de llegada del pedido, etc.).
 
-#### OBJ-003: Gestionar los pedidos
+#### OBJ-003: Control de los pedidos
 - **Como:** Encargado de almacén.
-- **Quiero:** Ofrecer un servicio de entrega fiable y seguro,tener un recuento de los productor del pedido y manteniendo un seguimiento del mismo.
-- **Para:** Que el cliente pueda recibirlo sin deterioro ninguno y pueda estimar la fecha de llegada del mismo.
+- **Quiero:** Saber de que manera se está realizando cada pedido.
+- **Para:** mantener una buena trazabilidad entre cada pedido.
 
 #### OBJ-004: Gestionar los productos
 - **Como:** Gerente de la tienda.
@@ -103,10 +103,11 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - **Quiero:** Ofrecer un servicio seguro y eficaz de devoluciones.
 - **Para:** Que el cliente disponga de facilidades si hay algún problema con el envío o el reparto (producto defectuoso, mensajes de envío realizado fraudulentos, etc.).
 
-#### OBJ-006: Gestionar las devoluciones
+#### OBJ-006: Valoración de pedidos
 - **Como:** Cliente.
-- **Quiero:** Tener la capacidad para valorar la calidad del encvío y producto.
+- **Quiero:** Tener la capacidad para valorar la calidad del envío y producto.
 - **Para:** Mostrar mi descontento o aprobación con el servicio recibido.
+
 
 ### 3.2. Usuarios del sistema
 
@@ -606,15 +607,19 @@ Cada escenario debe incluir una descripción textual y un diagrama de objetos UM
 
 Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos:
 
-|      | Entidad X | Asociación X | Restricción X | Entidad 2... |
-| :--- | :-------- | :----------- | :------------ | :----------- |
-| RI-1 | X         | X            | X             | X            |
-| RI-2 |           | X            |               | X            |
-| RF-1 |           | X            |               | X            |
-| RF-2 | X         |              | X             | X            |
-| RN-1 |           | X            |               |              |
-| RN-2 | X         | X            | X             |              |
-| ...  |           |              |               |              |
+|      | OBJ-001 | OBJ-002 | OBJ-003 | OBJ-004 | OBJ-005 | OBJ-006 |
+| :--- | :------ | :------ | :------ | :------ | :------ | :------ |
+| RI-1 |         |         |         |         |         |         |
+| RI-2 |         |         |         |         |         |         |
+| RF-1 |         |         |         |         |         |         |
+| RF-2 |         |         |         |         |         |         |
+| RN-1 | X       |         |         |         |         |         |
+| RN-2 |         |         | X       |         |         |         |
+| RN-3 |         |         |         |         | X       |         |
+| RN-4 |         |         | X       |         |         |         |
+| ...  |         |         |         |         |         |         |
+| ...  |         |         |         |         |         |         |
+
 
 ---
 
