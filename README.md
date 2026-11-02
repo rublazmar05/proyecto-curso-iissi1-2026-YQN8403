@@ -596,7 +596,7 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 
 ### 5.1. Diagramas de clases UML
 
-![Diagrama de clases UML del sistema KUMAFU](imagenes/kumafu_UML_4.svg)
+![Diagrama de clases UML del sistema KUMAFU](imagenes/kumafu_UML_4_1.svg)
 
 ### 5.2. Escenarios de prueba
 
