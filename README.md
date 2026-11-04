@@ -609,18 +609,47 @@ Matriz de trazabilidad entre los elementos del modelo conceptual y los requisito
 
 |      | OBJ-001 | OBJ-002 | OBJ-003 | OBJ-004 | OBJ-005 | OBJ-006 |
 | :--- | :------ | :------ | :------ | :------ | :------ | :------ |
-| RI-1 |         |         |         |         |         |         |
-| RI-2 |         |         |         |         |         |         |
-| RF-1 |         |         |         |         |         |         |
-| RF-2 |         |         |         |         |         |         |
-| RN-1 | X       |         |         |         |         |         |
-| RN-2 |         |         | X       |         |         |         |
+| RI-1 |         |         |         |    X    |         |         |
+| RI-2 |         |         |         |    X    |         |         |
+| RI-3 |         |    X    |    X    |         |    X    |    X    |
+| RI-4 |         |         |    X    |    X    |         |         |
+| RI-5 |         |    X    |    X    |         |         |         |
+| RI-6 |         |    X    |         |         |         |         |
+| RI-7 |    X    |    X    |    X    |         |         |         |
+| RI-8 |         |    X    |    X    |         |    X    |         |
+| RN-1 |         |         |    X    |         |         |         |
+| RN-2 |         |         |    X    |         |         |         |
 | RN-3 |         |         |         |         | X       |         |
-| RN-4 |         |         | X       |         |         |         |
-| ...  |         |         |         |         |         |         |
-| ...  |         |         |         |         |         |         |
+| RN-4 |         |         |    X    |         |         |         |
 
+Matriz de trazabilidad entre los requisitos funcionales y los requisitos de información:
 
+|      |  RI.01  |  RI.02  |  RI.03  |  RI.04  |  RI.05  |  RI.06  |  RI.07  |  RI.08  |    REG.N    |
+| :--- | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :---------- |
+| RF1.1|         |         |         |         |         |         |    X    |         |             |
+| RF1.2|         |         |         |         |         |         |    X    |         |             |
+| RF1.3|         |         |         |         |         |         |    X    |         |             |
+| RF1.4|         |         |    X    |         |         |         |    X    |         |             |
+| RF2.1|         |         |         |         |         |         |    X    |         |             |
+| RF2.2|         |         |         |         |    X    |    X    |    X    |         |             |
+| RF2.3|         |         |         |         |         |         |    X    |         |             |
+| RF2.4|         |         |    X    |         |         |         |    X    |         |             |
+| RF3.1|    X    |         |    X    |    X    |         |         |    X    |         |RN.001,RN.OO2|
+| RF3.2|         |         |    X    |    X    |    X    |         |    X    |         |    RN.002   |
+| RF3.3|         |         |    X    |         |         |         |    X    |         |             |
+| RF3.4|         |         |    X    |    X    |    X    |         |         |         |             |
+| RF4.1|    X    |         |         |         |         |         |         |         |             |
+| RF4.2|    X    |    X    |         |         |         |         |         |         |             |
+| RF4.3|    X    |         |         |         |         |         |         |         |             |
+| RF4.4|    X    |         |         |    X    |         |         |         |         |             |
+| RF5.1|         |         |    X    |         |         |         |    X    |    X    |    RN.003   |
+| RF5.2|         |         |    X    |         |         |         |    X    |    X    |             |
+| RF5.3|         |         |    X    |         |         |         |         |    X    |             |
+| RF5.4|         |         |    X    |         |         |         |         |    X    |             |
+| RF6.1|         |         |    X    |         |         |         |    X    |         |             |
+| RF6.2|         |         |    X    |         |         |         |    X    |         |             |
+| RF6.3|         |         |    X    |         |         |         |    X    |         |             |
+| RF6.4|         |         |    X    |         |         |         |    X    |         |             |
 ---
 
 ## 7. Modelo relacional en 3FN
