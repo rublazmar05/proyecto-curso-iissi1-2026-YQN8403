@@ -189,15 +189,14 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 #### R.F.2.2. Consultar mi cuenta de cliente
 
 - **Como:** cliente.
-- **Quiero:** consultar mis datos personales, mi dirección de envío y mis métodos de pago guardados.
-- **Para:** comprobar la información disponible para realizar mis pedidos.
+- **Quiero:** consultar mis datos personales, mi dirección de envío y mi deuda acumulada.
+- **Para:** comprobar la información disponible en mi perfil para realizar mis pedidos.
 
 **Pruebas de aceptación**
 
 - El cliente puede consultar únicamente los datos de su propia cuenta.
-- Se muestran sus datos personales y su dirección de envío.
-- Se muestran sus métodos de pago guardados, identificando las tarjetas mediante su marca y sus cuatro últimos dígitos.
-- Si no tiene métodos de pago guardados, se informa de ello.
+- Se muestran sus datos personales (`nombre`, `apellidos`, `email` y `telefono`), su `direccionEnvio` y su `/deuda` actual.
+- Si el cliente no tiene pagos pendientes, se muestra que su deuda acumulada es cero.
 
 #### R.F.2.3. Modificar mi cuenta de cliente
 
@@ -249,7 +248,7 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 **Pruebas de aceptación**
 
 - Para cada pedido se muestran su identificador, cliente, estado y empleado asignado.
-- Al consultar el detalle, se muestran los productos, sus cantidades, el importe total y las fechas de confirmación y envío cuando existan.
+- Al consultar el detalle, se muestran los productos, sus cantidades, el importe total y las fechas de envío y entrega cuando existan.
 - La consulta permite conocer los pagos registrados y el importe pendiente del pedido.
 - Al filtrar por empleado y estado, se muestran únicamente los pedidos que cumplen ambos criterios.
 - Si ningún pedido cumple los filtros, se informa de que no hay resultados.
@@ -257,13 +256,13 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 #### R.F.3.3. Actualizar la gestión de pedidos
 
 - **Como:** encargado de almacén.
-- **Quiero:** actualizar el estado, la información de envío y el empleado asignado a un pedido, así como registrar sus pagos.
+- **Quiero:** actualizar el estado, las fechas de envío y entrega y el empleado asignado a un pedido, así como registrar sus pagos.
 - **Para:** reflejar el avance de su preparación y entrega.
 
 **Pruebas de aceptación**
 
 - Al modificar un pedido con datos válidos, los cambios quedan registrados.
-- Al registrar su envío, se guarda la fecha de envío correspondiente.
+- Al registrar su envío o su entrega, se guardan las fechas correspondientes (`fechaEnvío` y `fechaEntrega`).
 - Si un cambio de empleado incumple R.N.002, se rechaza la reasignación y se conserva el empleado anterior.
 - Al consultar nuevamente el pedido, se muestra la información actualizada.
 - Al registrar un pago válido, queda asociado al pedido y se actualiza su importe pendiente.
@@ -272,25 +271,25 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 #### R.F.3.4. Eliminar pedidos
 
 - **Como:** encargado de almacén.
-- **Quiero:** eliminar pedidos registrados por error que todavía no se hayan confirmado ni tengan pagos asociados.
-- **Para:** corregir registros incorrectos antes de iniciar su tramitación.
+- **Quiero:** eliminar pedidos registrados por error que todavía no se hayan enviado ni tengan pagos asociados.
+- **Para:** corregir registros incorrectos antes de iniciar su envío.
 
 **Pruebas de aceptación**
 
 - Se solicita confirmación antes de eliminar un pedido.
-- Si el pedido no está confirmado ni tiene pagos asociados, se elimina junto con sus líneas.
-- Si el pedido está confirmado o tiene pagos asociados, se rechaza la eliminación y se informa del motivo.
+- Si el pedido no se ha enviado ni tiene pagos asociados, se elimina junto con sus líneas.
+- Si el pedido ya se ha enviado o tiene pagos asociados, se rechaza la eliminación y se informa del motivo.
 - Si se cancela la operación, el pedido permanece sin cambios.
 
 #### R.F.4.1. Crear productos
 
 - **Como:** gerente de la tienda.
-- **Quiero:** registrar nuevos productos con su nombre, descripción, talla, color, precio y stock.
+- **Quiero:** registrar nuevos productos con su nombre, descripción, precio y stock.
 - **Para:** incorporar nuevas prendas al catálogo.
 
 **Pruebas de aceptación**
 
-- Al introducir los datos obligatorios y válidos, se registra el producto.
+- Al introducir los datos obligatorios y válidos, se registra el producto y se calcula su disponibilidad.
 - El precio debe ser mayor que cero y el stock debe ser un número entero mayor o igual que cero.
 - Si faltan datos obligatorios o se introducen valores no válidos, se informa del problema y no se crea el producto.
 - El producto creado aparece en la consulta del catálogo.
@@ -298,14 +297,14 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 #### R.F.4.2. Consultar productos
 
 - **Como:** gerente de la tienda.
-- **Quiero:** consultar los productos y sus existencias, con filtros por tipo de prenda, talla, color y disponibilidad.
+- **Quiero:** consultar los productos y sus existencias, con filtros por nombre, rango de precio y disponibilidad.
 - **Para:** conocer el estado del catálogo y detectar los productos agotados.
 
 **Pruebas de aceptación**
 
-- Para cada producto se muestran su nombre, descripción, talla, color, precio y stock.
+- Para cada producto se muestran su nombre, descripción, valoración, precio, stock y disponibilidad.
 - Al aplicar varios filtros, se muestran únicamente los productos que cumplen todos los criterios seleccionados.
-- Al consultar productos agotados, se muestran únicamente aquellos cuyo stock es cero.
+- Al consultar productos agotados (`/disponibilidad = false`), se muestran únicamente aquellos cuyo stock es cero.
 - Si ningún producto cumple los filtros, se informa de que no hay resultados.
 
 #### R.F.4.3. Modificar productos
@@ -441,100 +440,76 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 #### 4.1.1. Requisitos de información
 
-##### R.I.01. Registro de productos
+##### R.I.01. Registro de usuarios, clientes y empleados
+
+- **Como:** Administrador.
+- **Quiero:** Registrar los datos de la entidad **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono`), diferenciando mediante jerarquía completa y disjunta (`{complete, disjoint}`) entre **Cliente** (`direccionEnvio` y `/deuda` derivada, relacionado con **Pedido** mediante **solicita**) y **Empleado** (`fechaContratación` y `salario`, relacionado con **Pedido** mediante **gestiona**).
+- **Para:** Gestionar las cuentas de acceso al sistema, las direcciones de envío y deudas de los clientes, y la asignación de pedidos a los empleados.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacenan los atributos definidos para **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono: str`) y que todo usuario es exclusivamente **Cliente** o **Empleado** (`{complete, disjoint}`).
+- Comprobar que para cada **Cliente** se almacena su `direccionEnvio`, se calcula su atributo derivado `/deuda` y se relaciona con los pedidos que solicita (**solicita**, `1` a `0..*`), impidiendo nuevas solicitudes si alcanza o supera los 500 euros de deuda (**R.N.001**).
+- Comprobar que para cada **Empleado** se almacenan su `fechaContratación` y `salario`, y se relaciona con los pedidos que gestiona (**gestiona**, `1` a `0..*`), sin superar el límite de 5 pedidos en curso (`{EN_CURSO}`) gestionados simultáneamente (**R.N.002**).
+
+##### R.I.02. Registro de pedidos
 
 - **Como:** Encargado de almacén.
-- **Quiero:** Registrar los datos de cada producto (`nombre`, `descripcion` opcional, `valoración` opcional, `precio`, `stock` y `disponibilidad` derivada) junto con su relación con la talla (**tiene** `Talla`), los colores disponibles (**tiene** `Color`), las ofertas aplicadas (**ofrece** `Oferta`) y las líneas de pedido en las que se incluye (**Contiene** `LíneaPedido`).
-- **Para:** Disponer del catálogo de prendas actualizado con sus características, existencias y precios para su consulta y venta.
+- **Quiero:** Registrar los datos de cada **Pedido** (`fechaEnvío` opcional, `fechaEntrega` opcional, `valoración` opcional, `comentario` opcional y los atributos derivados `/precioTotal`, `/estado: EstadoPedido`, `/importePorPagar` y `/estadoDevolucion: EstadoDevolucion`), así como sus relaciones con el cliente que lo realiza (**solicita** `Cliente`), el empleado que lo gestiona (**gestiona** `Empleado`), los productos incluidos (**Contiene** `Producto` mediante `LineaPedido`), los pagos asociados (**tiene** `Pago`) y su posible devolución (**solicita** `Devolucion`).
+- **Para:** Realizar el seguimiento completo de las compras, su estado de tramitación y entrega, sus pagos, sus devoluciones y su valoración.
 
 **Pruebas de aceptación**
 
-- Comprobar que se almacenan los atributos definidos para la entidad **Producto** (`nombre`, `descripcion` [0..1], `valoración` [0..1], `precio` y `stock`) y que `/disponibilidad` se obtiene como atributo derivado.
-- Comprobar que cada producto se asocia obligatoriamente a una **Talla** (relación *tiene*, `1` a `1..*`) y al menos a un **Color** (relación *tiene*, `1..*` a `1..*`).
-- Comprobar que un producto puede estar asociado a cero o varias ofertas (**Oferta**) y formar parte de cero o varias líneas de pedido (**LíneaPedido**).
+- Comprobar que se almacenan los atributos definidos para la entidad **Pedido** (`fechaEnvío` [0..1], `fechaEntrega` [0..1], `valoración` [0..1] y `comentario` [0..1]) y se calculan sus atributos derivados (`/precioTotal`, `/estado: EstadoPedido` [*Procesando*, *Enviado*, *EnReparto*, *Entregado*, *Cancelado*], `/importePorPagar` y `/estadoDevolucion: EstadoDevolucion` [*Enviado*, *EnRevision*, *Aceptada*, *Rechazada*]).
+- Comprobar que todo pedido está asociado a un único **Cliente** que lo solicita (`1` a `0..*`), a un único **Empleado** que lo gestiona (`1` a `0..*`) y contiene al menos un **Producto** (`1..*`) a través de **LineaPedido**.
+- Comprobar que un pedido puede tener asociados cero o varios pagos (**Pago**, `0..*`) mediante la relación **tiene** y como máximo una **Devolucion** (`0..1`) mediante la relación **solicita**.
+- Comprobar que no se permite registrar un nuevo pedido para un cliente cuya `/deuda` sea mayor o igual a 500 euros (**R.N.001**), ni asignarlo a un empleado que ya gestione 5 pedidos en curso (**R.N.002**).
 
-##### R.I.02. Registro de ofertas
+##### R.I.03. Registro de líneas de pedido
 
-- **Como:** Gerente de la tienda.
-- **Quiero:** Registrar las ofertas promocionales (`porcentajeDescuento`, `fechaInicio` y `fechaFin` opcional) y su relación con los productos a los que se aplican (**ofrece** `Producto`).
-- **Para:** Aplicar descuentos temporales a los productos del catálogo.
-
-**Pruebas de aceptación**
-
-- Comprobar que se almacenan los atributos definidos para la entidad **Oferta** (`porcentajeDescuento`, `fechaInicio` y `fechaFin` [0..1]).
-- Comprobar que cada oferta se asocia a uno o varios productos mediante la relación **ofrece** (`Producto` `1..*` — `0..*` `Oferta`).
-
-##### R.I.03. Registro de pedidos
-
-- **Como:** Cliente.
-- **Quiero:** Que el sistema registre los pedidos (`fechaEnvío` opcional, `fechaConfirmacion` opcional, `valoración` opcional, `comentario` opcional y los datos derivados `precioTotal`, `estado`, `importePorPagar` y `esValorable`), así como sus relaciones con el cliente que lo realiza (**solicita** `Cliente`), el empleado que lo gestiona (**gestiona** `Empleado`), sus líneas de detalle (**Contiene** `LíneaPedido`), los pagos asociados (**tiene** `Pago`) y su posible devolución (**solicitaDevolucion** `Devolucion`).
-- **Para:** Realizar el seguimiento de las compras, su estado de tramitación, sus pagos, sus devoluciones y su valoración.
-
-**Pruebas de aceptación**
-
-- Comprobar que se almacenan los atributos definidos para la entidad **Pedido** (`fechaEnvío` [0..1], `fechaConfirmacion` [0..1], `valoración` [0..1] y `comentario` [0..1]) y se calculan sus atributos derivados (`/precioTotal`, `/estado`, `/importePorPagar` y `/esValorable`).
-- Comprobar que todo pedido está asociado a un único **Cliente** que lo solicita (`1` a `0..*`), a un único **Empleado** que lo gestiona (`1` a `0..*`) y contiene al menos una **LíneaPedido** (`1..*`).
-- Comprobar que un pedido puede tener asociados uno o varios pagos (**Pago**, `0..*`) y como máximo una **Devolucion** (`0..1`).
-- Comprobar que no se permite registrar un nuevo pedido para un cliente cuya deuda sea mayor o igual a 500 euros, conforme a la regla de negocio **R.N.001**.
-- Comprobar que un empleado no puede tener asignados más de 5 pedidos, conforme a la regla de negocio **R.N.002**.
-
-##### R.I.04. Registro de líneas de pedido
-
-- **Como:** Cliente.
-- **Quiero:** Que el sistema registre cada línea de pedido (`cantidadPedida` y `/precioUnitario` derivado) vinculando el pedido al que pertenece y el producto solicitado (**Contiene** entre `Pedido` y `Producto`).
+- **Como:** Encargado de almacén.
+- **Quiero:** Registrar cada **LineaPedido** (`cantidadPedida` y `/precioUnitario` derivado) como clase asociativa de la relación **Contiene** entre **Pedido** y **Producto**.
 - **Para:** Conocer el detalle de prendas, cantidades e importes unitarios que componen cada pedido.
 
 **Pruebas de aceptación**
 
-- Comprobar que la clase asociativa **LíneaPedido** almacena la `cantidadPedida` y calcula el atributo derivado `/precioUnitario`.
-- Comprobar que cada **LíneaPedido** vincula un **Pedido** (que debe tener al menos una línea, `1..*`) con un **Producto** (`0..*`).
+- Comprobar que la clase asociativa **LineaPedido** almacena el atributo `cantidadPedida` y calcula el atributo derivado `/precioUnitario`.
+- Comprobar que cada **LineaPedido** vincula un **Pedido** (`0..*`) con al menos un **Producto** (`1..*`) mediante la asociación **Contiene**.
 
-##### R.I.05. Registro de pagos
-
-- **Como:** Cliente.
-- **Quiero:** Que el sistema registre los pagos realizados (`cantidad` y `estado`), asociando cada pago con el pedido correspondiente (**tiene** `Pedido`) y con el método de pago empleado (**usa** `MétodoPago`).
-- **Para:** Llevar el control de los importes abonados y pendientes de cada pedido.
-
-**Pruebas de aceptación**
-
-- Comprobar que se almacenan los atributos definidos para la entidad **Pago** (`cantidad` y `estado`: *EnProceso*, *Confirmado* o *Fallido*).
-- Comprobar que cada pago está asociado obligatoriamente a un **Pedido** (relación *tiene*, `1` a `0..*`) y utiliza un único **MétodoPago** (relación *usa*, `0..*` a `1`).
-- Comprobar que si el importe total del pedido es inferior a 500 euros no se permite registrar más de un pago para dicho pedido, conforme a la regla de negocio **R.N.004**.
-
-##### R.I.06. Registro de métodos de pago
+##### R.I.04. Registro de pagos
 
 - **Como:** Cliente.
-- **Quiero:** Registrar los métodos de pago disponibles (`nombre`) y su vinculación con los pagos realizados (**usa** `Pago`).
-- **Para:** Identificar el medio utilizado al abonar cada transacción.
+- **Quiero:** Que el sistema registre los datos de cada **Pago** (`cantidad` y `/estadoPago: EstadoPago` derivado), asociándolo con el pedido correspondiente mediante la relación **tiene** (`Pedido`).
+- **Para:** Llevar el control de los importes abonados, el estado de cada cobro y el importe pendiente de pago de cada pedido.
 
 **Pruebas de aceptación**
 
-- Comprobar que se almacena el atributo `nombre` definido para la entidad **MétodoPago**.
-- Comprobar que un **MétodoPago** puede estar asociado a cero o varios pagos (**Pago**, `0..*`) mediante la relación **usa**.
+- Comprobar que se almacena el atributo `cantidad` y se obtiene el atributo derivado `/estadoPago: EstadoPago` (*EnProceso*, *Confirmado* o *Fallido*) definidos para la entidad **Pago**.
+- Comprobar que cada pago está asociado obligatoriamente a un único **Pedido** mediante la relación **tiene** (`1` `Pedido` a `0..*` `Pago`).
+- Comprobar que si el `/precioTotal` del pedido es inferior a 500 euros no se permite registrar más de un pago para dicho pedido, conforme a la regla de negocio **R.N.004**.
 
-##### R.I.07. Registro de usuarios, clientes y empleados
+##### R.I.05. Registro de productos
 
-- **Como:** Administrador.
-- **Quiero:** Registrar los datos de la entidad **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono`), diferenciando mediante jerarquía completa y disjunta entre **Cliente** (`direccionEnvio` y `/deuda` derivada, relacionado con **Pedido** mediante **solicita**) y **Empleado** (`fechaContratación` y `salario`, relacionado con **Pedido** mediante **gestiona**).
-- **Para:** Gestionar las cuentas de acceso al sistema, los envíos y deudas de los clientes, y la asignación de pedidos a los empleados.
-
-**Pruebas de aceptación**
-
-- Comprobar que se almacenan los atributos de **Usuario** (`nombre`, `apellidos`, `email`, `password` y `telefono` [0..1]) y que todo usuario es exclusivamente **Cliente** o **Empleado** (`{complete, disjoint}`).
-- Comprobar que para cada **Cliente** se almacena su `direccionEnvio`, se calcula su atributo derivado `/deuda` y se relaciona con los pedidos que solicita (`0..*`), impidiendo nuevas solicitudes si alcanza o supera los 500 euros de deuda (**R.N.001**).
-- Comprobar que para cada **Empleado** se almacenan su `fechaContratación` y `salario`, y se relaciona con los pedidos que gestiona (`0..*`), sin superar el límite de 5 pedidos gestionados (**R.N.002**).
-
-##### R.I.08. Registro de devoluciones
-
-- **Como:** Cliente.
-- **Quiero:** Que el sistema registre las solicitudes de devolución (`fechaSolicitud`, `descripción` opcional y `estado`), asociándolas con el pedido correspondiente (**solicitaDevolucion** `Pedido`).
-- **Para:** Gestionar y consultar el estado de las devoluciones solicitadas sobre mis compras.
+- **Como:** Gerente de la tienda.
+- **Quiero:** Registrar los datos de cada **Producto** (`nombre`, `descripcion` opcional, `valoración` opcional, `precio`, `stock` y `/disponibilidad` derivada) junto con su relación con los pedidos en los que se incluye (**Contiene** `Pedido` a través de `LineaPedido`).
+- **Para:** Disponer del catálogo de prendas actualizado con sus características, existencias, disponibilidad y precios para su consulta y venta.
 
 **Pruebas de aceptación**
 
-- Comprobar que se almacenan los atributos definidos para la entidad **Devolucion** (`fechaSolicitud`, `descripción` [0..1] y `estado`: *Enviado*, *EnRevision*, *Aceptada* o *Rechazada*).
-- Comprobar que cada **Devolucion** se asocia obligatoriamente a un único **Pedido** (relación *solicitaDevolucion*, `0..1` a `1`).
-- Comprobar que solo se permite registrar una devolución si han transcurrido menos de 30 días respecto al pedido asociado, conforme a la regla de negocio **R.N.003**.
+- Comprobar que se almacenan los atributos definidos para la entidad **Producto** (`nombre`, `descripcion` [0..1], `valoración` [0..1], `precio` y `stock`) y que `/disponibilidad` se calcula como atributo derivado en función de las existencias.
+- Comprobar que un producto puede formar parte de cero o varios pedidos (`0..*`) a través de la asociación **Contiene** y la clase asociativa **LineaPedido**.
+
+##### R.I.06. Registro de devoluciones
+
+- **Como:** Gerente de la tienda.
+- **Quiero:** Registrar las solicitudes de **Devolucion** (`fechaSolicitud` y `descripción` opcional), asociándolas con su pedido correspondiente mediante la relación **solicita** (`Pedido`).
+- **Para:** Gestionar las incidencias comunicadas sobre los pedidos y reflejar su evolución en el `/estadoDevolucion` del pedido.
+
+**Pruebas de aceptación**
+
+- Comprobar que se almacenan los atributos definidos para la entidad **Devolucion** (`fechaSolicitud` y `descripción` [0..1]).
+- Comprobar que cada **Devolucion** se asocia obligatoriamente a un único **Pedido** mediante la relación **solicita** (`1` `Pedido` a `0..1` `Devolucion`), reflejando el estado de tramitación en el atributo derivado `/estadoDevolucion: EstadoDevolucion` del pedido (*Enviado*, *EnRevision*, *Aceptada* o *Rechazada*).
+- Comprobar que solo se permite registrar una devolución si han transcurrido menos de 30 días, conforme a la regla de negocio **R.N.003**.
 
 
 #### 4.1.2. Reglas de negocio
@@ -547,7 +522,7 @@ quiero los clientes con una deuda mayor o igual 500 no puedan solicitar más ped
 ##### R.N.002. Limitación de gestiones de pedido
 
 Como jefe de recursos humanos,
-quiero que los empleados no puedan gestionar más de 5 pedidos, para evitar sobrecarga de trabajo y garantizar la gestión de cada pedido de la forma más centrada posible.
+quiero que los empleados no puedan gestionar más de 5 pedidos en curso, para evitar sobrecarga de trabajo y garantizar la gestión de cada pedido de la forma más centrada posible.
 
 ##### R.N.003. Tiempo de devolución
 
@@ -566,14 +541,14 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 #### R.N.F.01. Tiempo de respuesta en consultas del catálogo
 
 - **Como:** Cliente.
-- **Quiero:** Que las consultas y el filtrado de productos por talla, color o tipo de prenda respondan en menos de 2 segundos.
+- **Quiero:** Que las consultas y el filtrado de productos por nombre, precio o disponibilidad respondan en menos de 2 segundos.
 - **Para:** Navegar por el catálogo de forma fluida sin tiempos de espera que dificulten la compra.
 
-#### R.N.F.02. Protección de credenciales y datos de pago
+#### R.N.F.02. Protección de credenciales y datos de acceso
 
 - **Como:** Administrador.
-- **Quiero:** Que las contraseñas de los usuarios se almacenen de forma cifrada y que nunca se expongan datos sensibles completos de los métodos de pago en las consultas.
-- **Para:** Garantizar la privacidad y la seguridad de la información personal y financiera de los clientes y empleados.
+- **Quiero:** Que las contraseñas de los usuarios (`password`) se almacenen de forma cifrada y que nunca se expongan en texto plano en las consultas del sistema.
+- **Para:** Garantizar la privacidad y la seguridad de las cuentas de los clientes y empleados.
 
 #### R.N.F.03. Integridad transaccional en pedidos y pagos
 
@@ -847,14 +822,12 @@ Matriz de trazabilidad entre los objetivos generales y los requisitos de informa
 
 |            | OBJ-001 | OBJ-002 | OBJ-003 | OBJ-004 | OBJ-005 | OBJ-006 |
 | :--------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-| **RI-01**  |         |         |         |    X    |         |         |
-| **RI-02**  |         |         |         |    X    |         |         |
-| **RI-03**  |         |    X    |    X    |         |    X    |    X    |
-| **RI-04**  |         |         |    X    |    X    |         |         |
-| **RI-05**  |         |    X    |    X    |         |         |         |
-| **RI-06**  |         |    X    |         |         |         |         |
-| **RI-07**  |    X    |    X    |    X    |         |         |         |
-| **RI-08**  |         |    X    |    X    |         |    X    |         |
+| **RI-01**  |    X    |    X    |    X    |         |         |         |
+| **RI-02**  |         |    X    |    X    |         |    X    |    X    |
+| **RI-03**  |         |         |    X    |    X    |         |         |
+| **RI-04**  |         |    X    |    X    |         |         |         |
+| **RI-05**  |         |         |         |    X    |         |    X    |
+| **RI-06**  |         |    X    |    X    |         |    X    |         |
 | **RN-001** |         |         |    X    |         |         |         |
 | **RN-002** |         |         |    X    |         |         |         |
 | **RN-003** |         |         |         |         |    X    |         |
@@ -862,45 +835,43 @@ Matriz de trazabilidad entre los objetivos generales y los requisitos de informa
 
 Matriz de trazabilidad entre los requisitos funcionales y los requisitos de información y reglas de negocio:
 
-|            | RI-01 | RI-02 | RI-03 | RI-04 | RI-05 | RI-06 | RI-07 | RI-08 | RN-001 | RN-002 | RN-003 | RN-004 |
-| :--------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :----: | :----: | :----: | :----: |
-| **RF-1.1** |       |       |       |       |       |       |   X   |       |        |        |        |        |
-| **RF-1.2** |       |       |       |       |       |       |   X   |       |        |        |        |        |
-| **RF-1.3** |       |       |       |       |       |       |   X   |       |        |        |        |        |
-| **RF-1.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
-| **RF-2.1** |       |       |       |       |       |       |   X   |       |        |        |        |        |
-| **RF-2.2** |       |       |       |       |   X   |   X   |   X   |       |        |        |        |        |
-| **RF-2.3** |       |       |       |       |       |       |   X   |       |        |        |        |        |
-| **RF-2.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
-| **RF-3.1** |   X   |       |   X   |   X   |       |       |   X   |       |   X    |   X    |        |        |
-| **RF-3.2** |   X   |       |   X   |   X   |   X   |       |   X   |       |        |        |        |        |
-| **RF-3.3** |       |       |   X   |       |   X   |   X   |   X   |       |        |   X    |        |   X    |
-| **RF-3.4** |       |       |   X   |   X   |   X   |       |       |       |        |        |        |        |
-| **RF-4.1** |   X   |       |       |       |       |       |       |       |        |        |        |        |
-| **RF-4.2** |   X   |   X   |       |       |       |       |       |       |        |        |        |        |
-| **RF-4.3** |   X   |       |       |       |       |       |       |       |        |        |        |        |
-| **RF-4.4** |   X   |       |       |   X   |       |       |       |       |        |        |        |        |
-| **RF-5.1** |       |       |   X   |       |       |       |   X   |   X   |        |        |   X    |        |
-| **RF-5.2** |       |       |   X   |       |       |       |   X   |   X   |        |        |        |        |
-| **RF-5.3** |       |       |   X   |       |       |       |       |   X   |        |        |        |        |
-| **RF-5.4** |       |       |   X   |       |       |       |       |   X   |        |        |        |        |
-| **RF-6.1** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
-| **RF-6.2** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
-| **RF-6.3** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
-| **RF-6.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+|            | RI-01 | RI-02 | RI-03 | RI-04 | RI-05 | RI-06 | RN-001 | RN-002 | RN-003 | RN-004 |
+| :--------- | :---: | :---: | :---: | :---: | :---: | :---: | :----: | :----: | :----: | :----: |
+| **RF-1.1** |   X   |       |       |       |       |       |        |        |        |        |
+| **RF-1.2** |   X   |       |       |       |       |       |        |        |        |        |
+| **RF-1.3** |   X   |       |       |       |       |       |        |        |        |        |
+| **RF-1.4** |   X   |   X   |       |       |       |       |        |        |        |        |
+| **RF-2.1** |   X   |       |       |       |       |       |        |        |        |        |
+| **RF-2.2** |   X   |       |       |   X   |       |       |        |        |        |        |
+| **RF-2.3** |   X   |       |       |       |       |       |        |        |        |        |
+| **RF-2.4** |   X   |   X   |       |       |       |       |        |        |        |        |
+| **RF-3.1** |   X   |   X   |   X   |       |   X   |       |   X    |   X    |        |        |
+| **RF-3.2** |   X   |   X   |   X   |   X   |   X   |       |        |        |        |        |
+| **RF-3.3** |   X   |   X   |       |   X   |       |       |        |   X    |        |   X    |
+| **RF-3.4** |       |   X   |   X   |   X   |       |       |        |        |        |        |
+| **RF-4.1** |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-4.2** |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-4.3** |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-4.4** |       |       |   X   |       |   X   |       |        |        |        |        |
+| **RF-5.1** |   X   |   X   |       |       |       |   X   |        |        |   X    |        |
+| **RF-5.2** |   X   |   X   |       |       |       |   X   |        |        |        |        |
+| **RF-5.3** |       |   X   |       |       |       |   X   |        |        |        |        |
+| **RF-5.4** |       |   X   |       |       |       |   X   |        |        |        |        |
+| **RF-6.1** |   X   |   X   |       |       |       |       |        |        |        |        |
+| **RF-6.2** |   X   |   X   |       |       |       |       |        |        |        |        |
+| **RF-6.3** |   X   |   X   |       |       |       |       |        |        |        |        |
+| **RF-6.4** |   X   |   X   |       |       |       |       |        |        |        |        |
 
 Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos de información y reglas de negocio:
 
 |            | Usuario | Cliente | Empleado | Pedido | LineaPedido | Producto | Pago  | Devolucion | Asoc. solicita (Pedido) | Asoc. gestiona | Asoc. Contiene | Asoc. tiene (Pago) | Asoc. solicita (Devolucion) | Restr. RN-001 | Restr. RN-002 | Restr. RN-003 | Restr. RN-004 |
 | :--------- | :-----: | :-----: | :------: | :----: | :---------: | :------: | :---: | :--------: | :---------------------: | :------------: | :------------: | :----------------: | :-------------------------: | :-----------: | :-----------: | :-----------: | :-----------: |
-| **RI-01**  |         |         |          |        |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
-| **RI-02**  |         |         |          |        |             |    X     |       |            |                         |                |                |                    |                             |               |               |               |               |
-| **RI-03**  |         |    X    |    X     |   X    |      X      |          |   X   |     X      |            X            |       X        |       X        |         X          |              X              |       X       |       X       |               |               |
-| **RI-04**  |         |         |          |   X    |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
-| **RI-05**  |         |         |          |   X    |             |          |   X   |            |                         |                |                |         X          |                             |               |               |               |       X       |
-| **RI-06**  |         |         |          |        |             |          |   X   |            |                         |                |                |                    |                             |               |               |               |               |
-| **RI-07**  |    X    |    X    |    X     |   X    |             |          |       |            |            X            |       X        |                |                    |                             |       X       |       X       |               |               |
-| **RI-08**  |         |         |          |   X    |             |          |       |     X      |                         |                |                |                    |              X              |               |               |       X       |               |
+| **RI-01**  |    X    |    X    |    X     |   X    |             |          |       |            |            X            |       X        |                |                    |                             |       X       |       X       |               |               |
+| **RI-02**  |         |    X    |    X     |   X    |      X      |          |   X   |     X      |            X            |       X        |       X        |         X          |              X              |       X       |       X       |       X       |       X       |
+| **RI-03**  |         |         |          |   X    |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
+| **RI-04**  |         |         |          |   X    |             |          |   X   |            |                         |                |                |         X          |                             |               |               |               |       X       |
+| **RI-05**  |         |         |          |        |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
+| **RI-06**  |         |         |          |   X    |             |          |       |     X      |                         |                |                |                    |              X              |               |               |       X       |               |
 | **RN-001** |         |    X    |          |   X    |             |          |   X   |            |            X            |                |                |         X          |                             |       X       |               |               |               |
 | **RN-002** |         |         |    X     |   X    |             |          |       |            |                         |       X        |                |                    |                             |               |       X       |               |               |
 | **RN-003** |         |         |          |   X    |             |          |       |     X      |                         |                |                |                    |              X              |               |               |       X       |               |
