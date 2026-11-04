@@ -254,10 +254,10 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al filtrar por empleado y estado, se muestran únicamente los pedidos que cumplen ambos criterios.
 - Si ningún pedido cumple los filtros, se informa de que no hay resultados.
 
-#### R.F.3.3. Modificar pedidos
+#### R.F.3.3. Actualizar la gestión de pedidos
 
 - **Como:** encargado de almacén.
-- **Quiero:** actualizar el estado, la información de envío y el empleado asignado a un pedido.
+- **Quiero:** actualizar el estado, la información de envío y el empleado asignado a un pedido, así como registrar sus pagos.
 - **Para:** reflejar el avance de su preparación y entrega.
 
 **Pruebas de aceptación**
@@ -266,6 +266,8 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 - Al registrar su envío, se guarda la fecha de envío correspondiente.
 - Si un cambio de empleado incumple R.N.002, se rechaza la reasignación y se conserva el empleado anterior.
 - Al consultar nuevamente el pedido, se muestra la información actualizada.
+- Al registrar un pago válido, queda asociado al pedido y se actualiza su importe pendiente.
+- Si el importe total del pedido es inferior a 500 €, se rechaza registrar un segundo pago, conforme a RN.004.
 
 #### R.F.3.4. Eliminar pedidos
 
@@ -636,7 +638,7 @@ Matriz de trazabilidad entre los requisitos funcionales y los requisitos de info
 | RF2.4|         |         |    X    |         |         |         |    X    |         |             |
 | RF3.1|    X    |         |    X    |    X    |         |         |    X    |         |RN.001,RN.002|
 | RF3.2|    X    |         |    X    |    X    |    X    |         |    X    |         |             |
-| RF3.3|         |         |    X    |         |         |         |    X    |         |    RN.002   |
+| RF3.3|         |         |    X    |         |    X    |    X    |    X    |         |RN.002,RN.004|
 | RF3.4|         |         |    X    |    X    |    X    |         |         |         |             |
 | RF4.1|    X    |         |         |         |         |         |         |         |             |
 | RF4.2|    X    |    X    |         |         |         |         |         |         |             |
