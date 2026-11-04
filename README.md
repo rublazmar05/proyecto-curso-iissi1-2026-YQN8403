@@ -638,7 +638,7 @@ Matriz de trazabilidad entre los requisitos funcionales y los requisitos de info
 | RF2.4|         |         |    X    |         |         |         |    X    |         |             |
 | RF3.1|    X    |         |    X    |    X    |         |         |    X    |         |RN.001,RN.002|
 | RF3.2|    X    |         |    X    |    X    |    X    |         |    X    |         |             |
-| RF3.3|         |         |    X    |         |         |         |    X    |         |    RN.002   |
+| RF3.3|         |         |    X    |         |    X    |    X    |    X    |         |RN.002,RN.004|
 | RF3.4|         |         |    X    |    X    |    X    |         |         |         |             |
 | RF4.1|    X    |         |         |         |         |         |         |         |             |
 | RF4.2|    X    |    X    |         |         |         |         |         |         |             |
