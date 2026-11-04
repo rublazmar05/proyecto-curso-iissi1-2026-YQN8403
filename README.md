@@ -624,7 +624,7 @@ Matriz de trazabilidad entre los elementos del modelo conceptual y los requisito
 
 Matriz de trazabilidad entre los requisitos funcionales y los requisitos de información:
 
-|      |  RI.01  |  RI.02  |  RI.03  |  RI.04  |  RI.05  |  RI.06  |  RI.07  |  RI.08  |    REG.N    |
+|      |  RI.01  |  RI.02  |  RI.03  |  RI.04  |  RI.05  |  RI.06  |  RI.07  |  RI.08  | REG.NEGOCIO |
 | :--- | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :---------- |
 | RF1.1|         |         |         |         |         |         |    X    |         |             |
 | RF1.2|         |         |         |         |         |         |    X    |         |             |
