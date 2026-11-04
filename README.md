@@ -603,55 +603,309 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 
 ### 5.2. Escenarios de prueba
 
-Cada escenario debe incluir una descripción textual y un diagrama de objetos UML.
+A continuación se presentan tres escenarios de prueba que validan el comportamiento del modelo conceptual (`imagenes/kumafu_UML_4_1.svg`) mediante descripciones textuales y sus correspondientes diagramas de objetos UML.
+
+---
+
+#### Escenario 1: Compra completa con pago confirmado y devolución en plazo (Escenario válido)
+
+**Descripción textual:**
+El cliente **Carlos Sicard** (`cli1`), que no tiene deuda acumulada (`/deuda = 0.0`), solicita un pedido (`ped1`) gestionado por la empleada **Laura Gómez** (`emp1`, quien solo gestiona este pedido en curso, cumpliendo la **R.N.002**).
+El pedido contiene una línea de pedido (`lp1`) con **2 unidades** del producto *"Sudadera Hoodie Oversize"* (`prod1`), cuyo precio es de **50,00 €** y cuenta con **20 unidades** en stock (`/disponibilidad = true`). El `/precioUnitario` derivado en la línea es de **50,00 €** y el `/precioTotal` del pedido asciende a **100,00 €**.
+Al tratarse de un pedido con importe total inferior a 500 €, el cliente lo abona mediante **un único pago** (`pag1`, cumpliendo la **R.N.004**) de **100,00 €** con `/estadoPago = Confirmado`, dejando el `/importePorPagar` del pedido en **0,00 €**.
+El pedido es enviado en fecha `2026-10-15` y entregado el `2026-10-16` (`/estado = Entregado`). Cuatro días después de la entrega (`2026-10-20`), el cliente registra una valoración de **4 estrellas** en el pedido y solicita una devolución (`dev1`), pasando el pedido a tener `/estadoDevolucion = EnRevision`. Como han transcurrido menos de 30 días (cumpliendo la **R.N.003**), el escenario es completamente válido.
+
+**Diagrama de objetos UML:**
+
+```mermaid
+classDiagram
+    class cli1["<u>cli1 : Cliente</u>"] {
+        nombre = "Carlos"
+        apellidos = "Sicard Muñoz"
+        email = "carlos@kumafu.es"
+        password = "****"
+        telefono = "600111222"
+        direccionEnvio = "Av. Reina Mercedes 12, Sevilla"
+        /deuda = 0.0
+    }
+
+    class emp1["<u>emp1 : Empleado</u>"] {
+        nombre = "Laura"
+        apellidos = "Gómez Pérez"
+        email = "laura@kumafu.es"
+        password = "****"
+        telefono = "600333444"
+        fechaContratación = 2025-03-01
+        salario = 1650.0
+    }
+
+    class ped1["<u>ped1 : Pedido</u>"] {
+        fechaEnvío = 2026-10-15
+        fechaEntrega = 2026-10-16
+        valoración = 4
+        comentario = "Buena calidad, pero talla grande"
+        /precioTotal = 100.0
+        /estado = Entregado
+        /importePorPagar = 0.0
+        /estadoDevolucion = EnRevision
+    }
+
+    class lp1["<u>lp1 : LineaPedido</u>"] {
+        /precioUnitario = 50.0
+        cantidadPedida = 2
+    }
+
+    class prod1["<u>prod1 : Producto</u>"] {
+        nombre = "Sudadera Hoodie Oversize"
+        descripcion = "Algodón 100%"
+        valoración = 4.0
+        precio = 50.0
+        stock = 20
+        /disponibilidad = true
+    }
+
+    class pag1["<u>pag1 : Pago</u>"] {
+        cantidad = 100.0
+        /estadoPago = Confirmado
+    }
+
+    class dev1["<u>dev1 : Devolucion</u>"] {
+        fechaSolicitud = 2026-10-20
+        descripción = "Cambio por una talla menos"
+    }
+
+    cli1 -- ped1 : solicita
+    emp1 -- ped1 : gestiona
+    ped1 -- lp1 : Contiene
+    prod1 -- lp1 : Contiene
+    ped1 -- pag1 : tiene
+    ped1 -- dev1 : solicita
+```
+
+---
+
+#### Escenario 2: Bloqueo de nuevo pedido por deuda acumulada ≥ 500 € (Comprobación de R.N.001 y R.N.004)
+
+**Descripción textual:**
+El cliente **Javier Ramírez** (`cli2`) tiene un pedido previo (`ped2`) cuyo `/precioTotal` es de **600,00 €** (compuesto por 6 unidades del *"Pantalón Cargo Denim"* `prod2` a **100,00 €** cada una), del cual solo ha abonado un primer pago confirmado (`pag2`) de **100,00 €**. Al tener un importe total igual o superior a 500 €, el sistema le permite realizar más de un pago para abonarlo a plazos (cumpliendo la **R.N.004**), quedándole un `/importePorPagar` de **500,00 €** en el pedido y generando en el cliente una `/deuda` derivada de **500,00 €**.
+En este instante, si `cli2` intenta solicitar un nuevo pedido (`ped3_invalido`) por valor de **120,00 €**, el sistema rechaza la operación al incumplirse la **R.N.001**, ya que el cliente presenta una deuda acumulada igual o superior a 500 €.
+
+**Diagrama de objetos UML:**
+
+```mermaid
+classDiagram
+    class cli2["<u>cli2 : Cliente</u>"] {
+        nombre = "Javier"
+        apellidos = "Ramírez Fabra"
+        email = "javier@kumafu.es"
+        password = "****"
+        telefono = "611222333"
+        direccionEnvio = "C/ Sierpes 45, Sevilla"
+        /deuda = 500.0
+    }
+
+    class emp1["<u>emp1 : Empleado</u>"] {
+        nombre = "Laura"
+        apellidos = "Gómez Pérez"
+        email = "laura@kumafu.es"
+        password = "****"
+        telefono = "600333444"
+        fechaContratación = 2025-03-01
+        salario = 1650.0
+    }
+
+    class ped2["<u>ped2 : Pedido</u>"] {
+        fechaEnvío = 2026-10-12
+        /precioTotal = 600.0
+        /estado = Enviado
+        /importePorPagar = 500.0
+    }
+
+    class lp2["<u>lp2 : LineaPedido</u>"] {
+        /precioUnitario = 100.0
+        cantidadPedida = 6
+    }
+
+    class prod2["<u>prod2 : Producto</u>"] {
+        nombre = "Pantalón Cargo Denim"
+        precio = 100.0
+        stock = 15
+        /disponibilidad = true
+    }
+
+    class pag2["<u>pag2 : Pago</u>"] {
+        cantidad = 100.0
+        /estadoPago = Confirmado
+    }
+
+    class ped3["<u>ped3_invalido : Pedido</u>"] {
+        <<INVALIDO: RN-001 Viola>>
+        /precioTotal = 120.0
+        /estado = Procesando
+        /importePorPagar = 120.0
+    }
+
+    cli2 -- ped2 : solicita
+    emp1 -- ped2 : gestiona
+    ped2 -- lp2 : Contiene
+    prod2 -- lp2 : Contiene
+    ped2 -- pag2 : tiene
+    cli2 .. ped3 : solicita (RECHAZADO por RN-001)
+```
+
+---
+
+#### Escenario 3: Solicitud de devolución fuera de plazo y límite de pedidos en curso por empleado (Comprobación de R.N.002 y R.N.003)
+
+**Descripción textual:**
+Este escenario comprueba las reglas de negocio relativas al límite de gestión de pedidos en curso por los empleados y al plazo de las devoluciones:
+1. **Incumplimiento de R.N.003 (Plazo de devolución):** El pedido `ped4`, entregado en fecha `2026-09-02`, recibe una solicitud de devolución (`dev2_invalida`) con fecha `2026-10-25`. Al haber transcurrido **53 días** (superando el límite de 30 días), la devolución incumple la **R.N.003** y es rechazada (`/estadoDevolucion = Rechazada`).
+2. **Incumplimiento de R.N.002 (Carga de trabajo en curso):** El empleado **Rubén Lázaro** (`emp2`) ya gestiona **5 pedidos en curso** (`ped5`, `ped6`, `ped7`, `ped8` y `ped9`), alcanzando el máximo permitido por la **R.N.002** (`{EN_CURSO}`). Al intentar asignarle un sexto pedido en curso (`ped10_invalido`), el sistema bloquea la asociación.
+
+**Diagrama de objetos UML:**
+
+```mermaid
+classDiagram
+    class emp2["<u>emp2 : Empleado</u>"] {
+        nombre = "Rubén"
+        apellidos = "Lázaro Marín"
+        email = "ruben@kumafu.es"
+        password = "****"
+        telefono = "622333444"
+        fechaContratación = 2024-09-15
+        salario = 1700.0
+    }
+
+    class ped4["<u>ped4 : Pedido</u>"] {
+        fechaEnvío = 2026-09-01
+        fechaEntrega = 2026-09-02
+        /precioTotal = 45.0
+        /estado = Entregado
+        /importePorPagar = 0.0
+        /estadoDevolucion = Rechazada
+    }
+
+    class ped5["<u>ped5 : Pedido</u>"] {
+        /precioTotal = 60.0
+        /estado = Procesando
+        /importePorPagar = 0.0
+    }
+
+    class ped6["<u>ped6 : Pedido</u>"] {
+        fechaEnvío = 2026-10-21
+        /precioTotal = 35.0
+        /estado = Enviado
+        /importePorPagar = 0.0
+    }
+
+    class ped7["<u>ped7 : Pedido</u>"] {
+        fechaEnvío = 2026-10-22
+        /precioTotal = 90.0
+        /estado = EnReparto
+        /importePorPagar = 0.0
+    }
+
+    class ped8["<u>ped8 : Pedido</u>"] {
+        /precioTotal = 50.0
+        /estado = Procesando
+        /importePorPagar = 0.0
+    }
+
+    class ped9["<u>ped9 : Pedido</u>"] {
+        fechaEnvío = 2026-10-23
+        /precioTotal = 75.0
+        /estado = Enviado
+        /importePorPagar = 0.0
+    }
+
+    class ped10["<u>ped10_invalido : Pedido</u>"] {
+        <<INVALIDO: RN-002 Viola>>
+        /precioTotal = 40.0
+        /estado = Procesando
+        /importePorPagar = 40.0
+    }
+
+    class dev2["<u>dev2_invalida : Devolucion</u>"] {
+        <<INVALIDO: RN-003 Viola>>
+        fechaSolicitud = 2026-10-25
+        descripción = "No me convence el diseño"
+    }
+
+    emp2 -- ped4 : gestiona (Entregado)
+    emp2 -- ped5 : gestiona (1/5 EN_CURSO)
+    emp2 -- ped6 : gestiona (2/5 EN_CURSO)
+    emp2 -- ped7 : gestiona (3/5 EN_CURSO)
+    emp2 -- ped8 : gestiona (4/5 EN_CURSO)
+    emp2 -- ped9 : gestiona (5/5 EN_CURSO)
+    emp2 .. ped10 : gestiona (6/5 EN_CURSO - RECHAZADO)
+    ped4 .. dev2 : solicita (RECHAZADO por RN-003)
+```
 
 ## 6. Matrices de trazabilidad
 
-Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos:
+Matriz de trazabilidad entre los objetivos generales y los requisitos de información y reglas de negocio:
 
-|      | OBJ-001 | OBJ-002 | OBJ-003 | OBJ-004 | OBJ-005 | OBJ-006 |
-| :--- | :------ | :------ | :------ | :------ | :------ | :------ |
-| RI-1 |         |         |         |    X    |         |         |
-| RI-2 |         |         |         |    X    |         |         |
-| RI-3 |         |    X    |    X    |         |    X    |    X    |
-| RI-4 |         |         |    X    |    X    |         |         |
-| RI-5 |         |    X    |    X    |         |         |         |
-| RI-6 |         |    X    |         |         |         |         |
-| RI-7 |    X    |    X    |    X    |         |         |         |
-| RI-8 |         |    X    |    X    |         |    X    |         |
-| RN-1 |         |         |    X    |         |         |         |
-| RN-2 |         |         |    X    |         |         |         |
-| RN-3 |         |         |         |         | X       |         |
-| RN-4 |         |         |    X    |         |         |         |
+|            | OBJ-001 | OBJ-002 | OBJ-003 | OBJ-004 | OBJ-005 | OBJ-006 |
+| :--------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| **RI-01**  |         |         |         |    X    |         |         |
+| **RI-02**  |         |         |         |    X    |         |         |
+| **RI-03**  |         |    X    |    X    |         |    X    |    X    |
+| **RI-04**  |         |         |    X    |    X    |         |         |
+| **RI-05**  |         |    X    |    X    |         |         |         |
+| **RI-06**  |         |    X    |         |         |         |         |
+| **RI-07**  |    X    |    X    |    X    |         |         |         |
+| **RI-08**  |         |    X    |    X    |         |    X    |         |
+| **RN-001** |         |         |    X    |         |         |         |
+| **RN-002** |         |         |    X    |         |         |         |
+| **RN-003** |         |         |         |         |    X    |         |
+| **RN-004** |         |         |    X    |         |         |         |
 
-Matriz de trazabilidad entre los requisitos funcionales y los requisitos de información:
+Matriz de trazabilidad entre los requisitos funcionales y los requisitos de información y reglas de negocio:
 
-|      |  RI.01  |  RI.02  |  RI.03  |  RI.04  |  RI.05  |  RI.06  |  RI.07  |  RI.08  | REG.NEGOCIO |
-| :--- | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :------ | :---------- |
-| RF1.1|         |         |         |         |         |         |    X    |         |             |
-| RF1.2|         |         |         |         |         |         |    X    |         |             |
-| RF1.3|         |         |         |         |         |         |    X    |         |             |
-| RF1.4|         |         |    X    |         |         |         |    X    |         |             |
-| RF2.1|         |         |         |         |         |         |    X    |         |             |
-| RF2.2|         |         |         |         |    X    |    X    |    X    |         |             |
-| RF2.3|         |         |         |         |         |         |    X    |         |             |
-| RF2.4|         |         |    X    |         |         |         |    X    |         |             |
-| RF3.1|    X    |         |    X    |    X    |         |         |    X    |         |RN.001,RN.002|
-| RF3.2|    X    |         |    X    |    X    |    X    |         |    X    |         |             |
-| RF3.3|         |         |    X    |         |    X    |    X    |    X    |         |RN.002,RN.004|
-| RF3.4|         |         |    X    |    X    |    X    |         |         |         |             |
-| RF4.1|    X    |         |         |         |         |         |         |         |             |
-| RF4.2|    X    |    X    |         |         |         |         |         |         |             |
-| RF4.3|    X    |         |         |         |         |         |         |         |             |
-| RF4.4|    X    |         |         |    X    |         |         |         |         |             |
-| RF5.1|         |         |    X    |         |         |         |    X    |    X    |    RN.003   |
-| RF5.2|         |         |    X    |         |         |         |    X    |    X    |             |
-| RF5.3|         |         |    X    |         |         |         |         |    X    |             |
-| RF5.4|         |         |    X    |         |         |         |         |    X    |             |
-| RF6.1|         |         |    X    |         |         |         |    X    |         |             |
-| RF6.2|         |         |    X    |         |         |         |    X    |         |             |
-| RF6.3|         |         |    X    |         |         |         |    X    |         |             |
-| RF6.4|         |         |    X    |         |         |         |    X    |         |             |
+|            | RI-01 | RI-02 | RI-03 | RI-04 | RI-05 | RI-06 | RI-07 | RI-08 | RN-001 | RN-002 | RN-003 | RN-004 |
+| :--------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :----: | :----: | :----: | :----: |
+| **RF-1.1** |       |       |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-1.2** |       |       |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-1.3** |       |       |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-1.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+| **RF-2.1** |       |       |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-2.2** |       |       |       |       |   X   |   X   |   X   |       |        |        |        |        |
+| **RF-2.3** |       |       |       |       |       |       |   X   |       |        |        |        |        |
+| **RF-2.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+| **RF-3.1** |   X   |       |   X   |   X   |       |       |   X   |       |   X    |   X    |        |        |
+| **RF-3.2** |   X   |       |   X   |   X   |   X   |       |   X   |       |        |        |        |        |
+| **RF-3.3** |       |       |   X   |       |   X   |   X   |   X   |       |        |   X    |        |   X    |
+| **RF-3.4** |       |       |   X   |   X   |   X   |       |       |       |        |        |        |        |
+| **RF-4.1** |   X   |       |       |       |       |       |       |       |        |        |        |        |
+| **RF-4.2** |   X   |   X   |       |       |       |       |       |       |        |        |        |        |
+| **RF-4.3** |   X   |       |       |       |       |       |       |       |        |        |        |        |
+| **RF-4.4** |   X   |       |       |   X   |       |       |       |       |        |        |        |        |
+| **RF-5.1** |       |       |   X   |       |       |       |   X   |   X   |        |        |   X    |        |
+| **RF-5.2** |       |       |   X   |       |       |       |   X   |   X   |        |        |        |        |
+| **RF-5.3** |       |       |   X   |       |       |       |       |   X   |        |        |        |        |
+| **RF-5.4** |       |       |   X   |       |       |       |       |   X   |        |        |        |        |
+| **RF-6.1** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+| **RF-6.2** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+| **RF-6.3** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+| **RF-6.4** |       |       |   X   |       |       |       |   X   |       |        |        |        |        |
+
+Matriz de trazabilidad entre los elementos del modelo conceptual y los requisitos de información y reglas de negocio:
+
+|            | Usuario | Cliente | Empleado | Pedido | LineaPedido | Producto | Pago  | Devolucion | Asoc. solicita (Pedido) | Asoc. gestiona | Asoc. Contiene | Asoc. tiene (Pago) | Asoc. solicita (Devolucion) | Restr. RN-001 | Restr. RN-002 | Restr. RN-003 | Restr. RN-004 |
+| :--------- | :-----: | :-----: | :------: | :----: | :---------: | :------: | :---: | :--------: | :---------------------: | :------------: | :------------: | :----------------: | :-------------------------: | :-----------: | :-----------: | :-----------: | :-----------: |
+| **RI-01**  |         |         |          |        |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
+| **RI-02**  |         |         |          |        |             |    X     |       |            |                         |                |                |                    |                             |               |               |               |               |
+| **RI-03**  |         |    X    |    X     |   X    |      X      |          |   X   |     X      |            X            |       X        |       X        |         X          |              X              |       X       |       X       |               |               |
+| **RI-04**  |         |         |          |   X    |      X      |    X     |       |            |                         |                |       X        |                    |                             |               |               |               |               |
+| **RI-05**  |         |         |          |   X    |             |          |   X   |            |                         |                |                |         X          |                             |               |               |               |       X       |
+| **RI-06**  |         |         |          |        |             |          |   X   |            |                         |                |                |                    |                             |               |               |               |               |
+| **RI-07**  |    X    |    X    |    X     |   X    |             |          |       |            |            X            |       X        |                |                    |                             |       X       |       X       |               |               |
+| **RI-08**  |         |         |          |   X    |             |          |       |     X      |                         |                |                |                    |              X              |               |               |       X       |               |
+| **RN-001** |         |    X    |          |   X    |             |          |   X   |            |            X            |                |                |         X          |                             |       X       |               |               |               |
+| **RN-002** |         |         |    X     |   X    |             |          |       |            |                         |       X        |                |                    |                             |               |       X       |               |               |
+| **RN-003** |         |         |          |   X    |             |          |       |     X      |                         |                |                |                    |              X              |               |               |       X       |               |
+| **RN-004** |         |         |          |   X    |             |          |   X   |            |                         |                |                |         X          |                             |               |               |               |       X       |
+
 ---
 
 ## 7. Modelo relacional en 3FN
