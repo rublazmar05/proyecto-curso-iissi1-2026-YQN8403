@@ -880,9 +880,17 @@ Matriz de trazabilidad entre los elementos del modelo conceptual y los requisito
 ---
 
 ## 7. Modelo relacional en 3FN
-
-Relaciones obtenidas al transformar el modelo conceptual.
-
+- **Usuarios**(!id, #email, nombre, password, telefono)
+- **Empleados**(!id, @usuarioId, fechaIncorporación, salario)
+- **Clientes**(!id, @usuarioId, direccionEnvio)
+- **Pedidos**(!id, @clienteId, @empleadoId, fechaEnvio, fechaEntrega, valoración, comentario)
+- **EstadosPedido**(!id, nombre)
+- **LineasPedido**(!id, #(@pedidoId, @productoId), precioUnitario, cantidadProducto)
+- **Productos**(!id, nombre, descripción, valoración, precioUnitario)
+- **Pagos**(!id, @pedidoId, cantidad)
+- **EstadosPago**(!id, nombre)
+- **Devoluciones**(!id, @pedidoId, fechaSolicitud, descripción)
+  
 ### 7.1. Justificación de la estrategia de transformación de jerarquías
 
 Si se identificaron jerarquías en el modelo conceptual, se debe justificar la estrategia utilizada para transformarlas.
