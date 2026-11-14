@@ -88,7 +88,11 @@ CREATE TABLE LineasPedido (
 
 CREATE TABLE Pagos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	importe INT CHECK(importe >= 0)
+	pedidoId INT,
+	importe INT CHECK(importe >= 0),
+	FOREIGN KEY (pedidoId) REFERENCES pedidos(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
 
 CREATE TABLE Devoluciones(
