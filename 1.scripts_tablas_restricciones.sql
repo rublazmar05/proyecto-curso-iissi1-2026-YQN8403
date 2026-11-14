@@ -1,13 +1,13 @@
-DROP TABLE if EXISTS devoluciones;
-DROP TABLE if EXISTS pagos;
-DROP TABLE if EXISTS lineasPedido;
-DROP TABLE if EXISTS pedidos;
-DROP TABLE if EXISTS estadosPedido;
-DROP TABLE if EXISTS estadosPago;
-DROP TABLE if EXISTS productos;
-DROP TABLE if EXISTS clientes;
-DROP TABLE if EXISTS empleados;
-DROP TABLE if EXISTS usuarios;
+DROP TABLE if EXISTS Devoluciones;
+DROP TABLE if EXISTS Pagos;
+DROP TABLE if EXISTS LineasPedido;
+DROP TABLE if EXISTS Pedidos;
+DROP TABLE if EXISTS EstadosPedido;
+DROP TABLE if EXISTS EstadosPago;
+DROP TABLE if EXISTS Productos;
+DROP TABLE if EXISTS Clientes;
+DROP TABLE if EXISTS Empleados;
+DROP TABLE if EXISTS Usuarios;
 
 
 CREATE TABLE Usuarios (
@@ -37,6 +37,24 @@ CREATE TABLE Clientes (
         ON UPDATE CASCADE
 );
 
+CREATE TABLE Productos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precioUnitario DECIMAL(10, 2) NOT NULL CHECK (precioUnitario >= 0),
+    valoracion TEXT
+);
+
+CREATE TABLE EstadosPago (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+   nombre VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE EstadosPedido (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+   nombre VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE Pedidos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fechaRealizacion DATE NOT NULL,
@@ -55,13 +73,7 @@ CREATE TABLE Pedidos (
         ON UPDATE SET NULL
 );
 
-CREATE TABLE Productos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(255) NOT NULL,
-    descripcion TEXT,
-    precioUnitario DECIMAL(10, 2) NOT NULL CHECK (precioUnitario >= 0),
-    valoracion TEXT
-);
+
 
 CREATE TABLE LineasPedido (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -74,7 +86,16 @@ CREATE TABLE LineasPedido (
     UNIQUE (pedidoId, productoId)
 );
 
-CREATE TABLE pagos(
+CREATE TABLE Pagos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	importe INT CHECK(importe >= 0)
+);
+
+CREATE TABLE Devoluciones(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	pedidoId INT NOT NULL,
+	fechaSolicitud DATE NOT NULL,
+	descripcion TEXT,
+	FOREIGN KEY (pedidoId) REFERENCES pedidos(id)
+		ON UPDATE CASCADE
 );
