@@ -514,10 +514,10 @@ Este glosario recoge los términos del dominio de KUMAFU necesarios para compren
 
 #### 4.1.2. Reglas de negocio
 
-##### R.N.001. Evitar compra de clientes con alta deuda
+##### R.N.001. Evitar compras de alta deuda con clientes
 
 Como jefe de Kumafu,
-quiero los clientes con una deuda mayor o igual 500 no puedan solicitar más pedidos, para garantizar que solo puedan comprar las personas que acaban pagando sus deudas.
+quiero que la deuda de los clientes nunca sea superior a 4000 euros, para evitar perdidas financieras elevadas en caso de que un cliente tarde en pagar sus deudas.
 
 ##### R.N.002. Limitación de gestiones de pedido
 
@@ -533,6 +533,11 @@ quiero que solo se pueda devolver un producto si han pasado menos de 30 días, p
 
 Como jefe de Kumafu,
 quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan con más de un pago, para reducir el número de deudas a la venta al pormenor.
+
+##### R.N.005. Pago inicial en pedidos
+
+Como jefe de Kumafu,
+quiero que no se pueda empezar a enviar un pedido hasta que se haya pagado un 40% del valor de este, para afianzar la compra con el cliente.
 
 ### 4.2. Mapa de historias de usuario (opcional)
 
@@ -574,247 +579,29 @@ quiero prohibir que los pedidos de importe total inferior a 500 euros se hagan c
 
 ### 5.1. Diagramas de clases UML
 
-![Diagrama de clases UML del sistema KUMAFU](imagenes/kumafu_UML_4_1.svg)
+![Diagrama de clases UML del sistema KUMAFU](imagenes/kumafu_UML_5.svg)
 
 ### 5.2. Escenarios de prueba
 
-A continuación se presentan tres escenarios de prueba que validan el comportamiento del modelo conceptual (`imagenes/kumafu_UML_4_1.svg`) mediante descripciones textuales y sus correspondientes diagramas de objetos UML.
+A continuación se presentan tres escenarios de prueba que validan el comportamiento del modelo conceptual mediante descripciones textuales.
 
 ---
 
-#### Escenario 1: Compra completa con pago confirmado y devolución en plazo (Escenario válido)
+#### Escenarios de prueba de la RN-001
 
-**Descripción textual:**
-El cliente **Carlos Sicard** (`cli1`), que no tiene deuda acumulada (`/deuda = 0.0`), solicita un pedido (`ped1`) gestionado por la empleada **Laura Gómez** (`emp1`, quien solo gestiona este pedido en curso, cumpliendo la **R.N.002**).
-El pedido contiene una línea de pedido (`lp1`) con **2 unidades** del producto *"Sudadera Hoodie Oversize"* (`prod1`), cuyo precio es de **50,00 €** y cuenta con **20 unidades** en stock (`/disponibilidad = true`). El `/precioUnitario` derivado en la línea es de **50,00 €** y el `/precioTotal` del pedido asciende a **100,00 €**.
-Al tratarse de un pedido con importe total inferior a 500 €, el cliente lo abona mediante **un único pago** (`pag1`, cumpliendo la **R.N.004**) de **100,00 €** con `/estadoPago = Confirmado`, dejando el `/importePorPagar` del pedido en **0,00 €**.
-El pedido es enviado en fecha `2026-10-15` y entregado el `2026-10-16` (`/estado = Entregado`). Cuatro días después de la entrega (`2026-10-20`), el cliente registra una valoración de **4 estrellas** en el pedido y solicita una devolución (`dev1`), pasando el pedido a tener `/estadoDevolucion = EnRevision`. Como han transcurrido menos de 30 días (cumpliendo la **R.N.003**), el escenario es completamente válido.
+**Casos positivos**
 
-**Diagrama de objetos UML:**
+- Un cliente sin deudas con la empresa introduce en la linea de pedido 100 camisetas a 20 euros cada una.
+- Un cliente sin deudas con la empresa introduce en la linea de pedido 100 chaquetas a 40 euros cada una.
+- Un cliente con una deuda calculada de 2000 euros hacia la empresa introduce una linea de pedido con un valor total de 1999'99 euros.
 
-```mermaid
-classDiagram
-    class cli1["<u>cli1 : Cliente</u>"] {
-        nombre = "Carlos"
-        apellidos = "Sicard Muñoz"
-        email = "carlos@kumafu.es"
-        password = "****"
-        telefono = "600111222"
-        direccionEnvio = "Av. Reina Mercedes 12, Sevilla"
-        /deuda = 0.0
-    }
+**Casos negativos**
 
-    class emp1["<u>emp1 : Empleado</u>"] {
-        nombre = "Laura"
-        apellidos = "Gómez Pérez"
-        email = "laura@kumafu.es"
-        password = "****"
-        telefono = "600333444"
-        fechaContratación = 2025-03-01
-        salario = 1650.0
-    }
+- Salta error cuando un cliente sin deudas intenta introducir una linea de pedido de 100 chaquetas a 40 euros cada una.
+- Salta error cuando un cliente con una deuda de 3980 euros intenta introducir una linea de pedido de 1 pantalón a 30 euros.
 
-    class ped1["<u>ped1 : Pedido</u>"] {
-        fechaEnvío = 2026-10-15
-        fechaEntrega = 2026-10-16
-        valoración = 4
-        comentario = "Buena calidad, pero talla grande"
-        /precioTotal = 100.0
-        /estado = Entregado
-        /importePorPagar = 0.0
-        /estadoDevolucion = EnRevision
-    }
-
-    class lp1["<u>lp1 : LineaPedido</u>"] {
-        /precioUnitario = 50.0
-        cantidadPedida = 2
-    }
-
-    class prod1["<u>prod1 : Producto</u>"] {
-        nombre = "Sudadera Hoodie Oversize"
-        descripcion = "Algodón 100%"
-        valoración = 4.0
-        precio = 50.0
-        stock = 20
-        /disponibilidad = true
-    }
-
-    class pag1["<u>pag1 : Pago</u>"] {
-        cantidad = 100.0
-        /estadoPago = Confirmado
-    }
-
-    class dev1["<u>dev1 : Devolucion</u>"] {
-        fechaSolicitud = 2026-10-20
-        descripción = "Cambio por una talla menos"
-    }
-
-    cli1 -- ped1 : solicita
-    emp1 -- ped1 : gestiona
-    ped1 -- lp1 : Contiene
-    prod1 -- lp1 : Contiene
-    ped1 -- pag1 : tiene
-    ped1 -- dev1 : solicita
-```
 
 ---
-
-#### Escenario 2: Bloqueo de nuevo pedido por deuda acumulada ≥ 500 € (Comprobación de R.N.001 y R.N.004)
-
-**Descripción textual:**
-El cliente **Javier Ramírez** (`cli2`) tiene un pedido previo (`ped2`) cuyo `/precioTotal` es de **600,00 €** (compuesto por 6 unidades del *"Pantalón Cargo Denim"* `prod2` a **100,00 €** cada una), del cual solo ha abonado un primer pago confirmado (`pag2`) de **100,00 €**. Al tener un importe total igual o superior a 500 €, el sistema le permite realizar más de un pago para abonarlo a plazos (cumpliendo la **R.N.004**), quedándole un `/importePorPagar` de **500,00 €** en el pedido y generando en el cliente una `/deuda` derivada de **500,00 €**.
-En este instante, si `cli2` intenta solicitar un nuevo pedido (`ped3_invalido`) por valor de **120,00 €**, el sistema rechaza la operación al incumplirse la **R.N.001**, ya que el cliente presenta una deuda acumulada igual o superior a 500 €.
-
-**Diagrama de objetos UML:**
-
-```mermaid
-classDiagram
-    class cli2["<u>cli2 : Cliente</u>"] {
-        nombre = "Javier"
-        apellidos = "Ramírez Fabra"
-        email = "javier@kumafu.es"
-        password = "****"
-        telefono = "611222333"
-        direccionEnvio = "C/ Sierpes 45, Sevilla"
-        /deuda = 500.0
-    }
-
-    class emp1["<u>emp1 : Empleado</u>"] {
-        nombre = "Laura"
-        apellidos = "Gómez Pérez"
-        email = "laura@kumafu.es"
-        password = "****"
-        telefono = "600333444"
-        fechaContratación = 2025-03-01
-        salario = 1650.0
-    }
-
-    class ped2["<u>ped2 : Pedido</u>"] {
-        fechaEnvío = 2026-10-12
-        /precioTotal = 600.0
-        /estado = Enviado
-        /importePorPagar = 500.0
-    }
-
-    class lp2["<u>lp2 : LineaPedido</u>"] {
-        /precioUnitario = 100.0
-        cantidadPedida = 6
-    }
-
-    class prod2["<u>prod2 : Producto</u>"] {
-        nombre = "Pantalón Cargo Denim"
-        precio = 100.0
-        stock = 15
-        /disponibilidad = true
-    }
-
-    class pag2["<u>pag2 : Pago</u>"] {
-        cantidad = 100.0
-        /estadoPago = Confirmado
-    }
-
-    class ped3["<u>ped3_invalido : Pedido</u>"] {
-        <<INVALIDO: RN-001 Viola>>
-        /precioTotal = 120.0
-        /estado = Procesando
-        /importePorPagar = 120.0
-    }
-
-    cli2 -- ped2 : solicita
-    emp1 -- ped2 : gestiona
-    ped2 -- lp2 : Contiene
-    prod2 -- lp2 : Contiene
-    ped2 -- pag2 : tiene
-    cli2 .. ped3 : solicita (RECHAZADO por RN-001)
-```
-
----
-
-#### Escenario 3: Solicitud de devolución fuera de plazo y límite de pedidos en curso por empleado (Comprobación de R.N.002 y R.N.003)
-
-**Descripción textual:**
-Este escenario comprueba las reglas de negocio relativas al límite de gestión de pedidos en curso por los empleados y al plazo de las devoluciones:
-1. **Incumplimiento de R.N.003 (Plazo de devolución):** El pedido `ped4`, entregado en fecha `2026-09-02`, recibe una solicitud de devolución (`dev2_invalida`) con fecha `2026-10-25`. Al haber transcurrido **53 días** (superando el límite de 30 días), la devolución incumple la **R.N.003** y es rechazada (`/estadoDevolucion = Rechazada`).
-2. **Incumplimiento de R.N.002 (Carga de trabajo en curso):** El empleado **Rubén Lázaro** (`emp2`) ya gestiona **5 pedidos en curso** (`ped5`, `ped6`, `ped7`, `ped8` y `ped9`), alcanzando el máximo permitido por la **R.N.002** (`{EN_CURSO}`). Al intentar asignarle un sexto pedido en curso (`ped10_invalido`), el sistema bloquea la asociación.
-
-**Diagrama de objetos UML:**
-
-```mermaid
-classDiagram
-    class emp2["<u>emp2 : Empleado</u>"] {
-        nombre = "Rubén"
-        apellidos = "Lázaro Marín"
-        email = "ruben@kumafu.es"
-        password = "****"
-        telefono = "622333444"
-        fechaContratación = 2024-09-15
-        salario = 1700.0
-    }
-
-    class ped4["<u>ped4 : Pedido</u>"] {
-        fechaEnvío = 2026-09-01
-        fechaEntrega = 2026-09-02
-        /precioTotal = 45.0
-        /estado = Entregado
-        /importePorPagar = 0.0
-        /estadoDevolucion = Rechazada
-    }
-
-    class ped5["<u>ped5 : Pedido</u>"] {
-        /precioTotal = 60.0
-        /estado = Procesando
-        /importePorPagar = 0.0
-    }
-
-    class ped6["<u>ped6 : Pedido</u>"] {
-        fechaEnvío = 2026-10-21
-        /precioTotal = 35.0
-        /estado = Enviado
-        /importePorPagar = 0.0
-    }
-
-    class ped7["<u>ped7 : Pedido</u>"] {
-        fechaEnvío = 2026-10-22
-        /precioTotal = 90.0
-        /estado = EnReparto
-        /importePorPagar = 0.0
-    }
-
-    class ped8["<u>ped8 : Pedido</u>"] {
-        /precioTotal = 50.0
-        /estado = Procesando
-        /importePorPagar = 0.0
-    }
-
-    class ped9["<u>ped9 : Pedido</u>"] {
-        fechaEnvío = 2026-10-23
-        /precioTotal = 75.0
-        /estado = Enviado
-        /importePorPagar = 0.0
-    }
-
-    class ped10["<u>ped10_invalido : Pedido</u>"] {
-        <<INVALIDO: RN-002 Viola>>
-        /precioTotal = 40.0
-        /estado = Procesando
-        /importePorPagar = 40.0
-    }
-
-    class dev2["<u>dev2_invalida : Devolucion</u>"] {
-        <<INVALIDO: RN-003 Viola>>
-        fechaSolicitud = 2026-10-25
-        descripción = "No me convence el diseño"
-    }
-
-    emp2 -- ped4 : gestiona (Entregado)
-    emp2 -- ped5 : gestiona (1/5 EN_CURSO)
-    emp2 -- ped6 : gestiona (2/5 EN_CURSO)
-    emp2 -- ped7 : gestiona (3/5 EN_CURSO)
-    emp2 -- ped8 : gestiona (4/5 EN_CURSO)
-    emp2 -- ped9 : gestiona (5/5 EN_CURSO)
-    emp2 .. ped10 : gestiona (6/5 EN_CURSO - RECHAZADO)
-    ped4 .. dev2 : solicita (RECHAZADO por RN-003)
-```
 
 ## 6. Matrices de trazabilidad
 
