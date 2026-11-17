@@ -2,8 +2,6 @@ DROP TABLE if EXISTS Devoluciones;
 DROP TABLE if EXISTS Pagos;
 DROP TABLE if EXISTS LineasPedido;
 DROP TABLE if EXISTS Pedidos;
-DROP TABLE if EXISTS EstadosPedido;
-DROP TABLE if EXISTS EstadosPago;
 DROP TABLE if EXISTS Productos;
 DROP TABLE if EXISTS Clientes;
 DROP TABLE if EXISTS Empleados;
@@ -15,7 +13,7 @@ CREATE TABLE Usuarios (
     email VARCHAR(255) UNIQUE NOT NULL,
     contraseña VARCHAR(255) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
-    telefono INT(15)
+    telefono VARCHAR(255) 
 );
 
 CREATE TABLE Empleados (
@@ -42,27 +40,17 @@ CREATE TABLE Productos (
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
     precioUnitario DECIMAL(10, 2) NOT NULL CHECK (precioUnitario >= 0),
-    valoracion TEXT
-);
-
-CREATE TABLE EstadosPago (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-   nombre VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE EstadosPedido (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-   nombre VARCHAR(255) NOT NULL
+    valoracion INT(2) CHECK(1 <= valoracion <= 10)
 );
 
 CREATE TABLE Pedidos (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    fechaRealizacion DATE NOT NULL,
+    fechaRealizacion DATE NOT NULL DEFAULT (CURRENT_DATE()),
     fechaEnvio DATE,
     fechaEntrega DATE,
     direccionEntrega VARCHAR(255) NOT NULL,
     comentario TEXT,
-    valoracion TEXT,
+    valoracion INT(2) CHECK(1 <= valoracion <= 10),
     clienteId INT NOT NULL,
     empleadoId INT,
     FOREIGN KEY (clienteId) REFERENCES Clientes(id) 
@@ -89,7 +77,7 @@ CREATE TABLE LineasPedido (
 CREATE TABLE Pagos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	pedidoId INT,
-	importe INT CHECK(importe >= 0),
+	importe DECIMAL(10, 2) NOT NULL CHECK(importe >= 0),
 	FOREIGN KEY (pedidoId) REFERENCES pedidos(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
