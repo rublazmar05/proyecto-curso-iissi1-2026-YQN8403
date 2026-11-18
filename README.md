@@ -600,6 +600,30 @@ A continuación se presentan tres escenarios de prueba que validan el comportami
 - Salta error cuando un cliente sin deudas intenta introducir una linea de pedido de 100 chaquetas a 40 euros cada una.
 - Salta error cuando un cliente con una deuda de 3980 euros intenta introducir una linea de pedido de 1 pantalón a 30 euros.
 
+#### Escenarios de prueba de la RN-002
+
+**Casos positivos**
+
+- Un empleado de la empresa está a cargo de 3 pedidos y llega una petición para realizar otro pedido más.
+- Un empleado de la empresa no tiene ningún pedido asociado y le llegan 4 peticiones al mismo tiempo para encargarse de 4 pedidos.
+- Salta un error cuando un empleado de la empresa con 5 pedidos asignados recibe una petición para encargarse de otro pedido más.
+
+**Casos negativos**
+
+- Salta error cuando un empleado está a cargo de 1 pedido y llega una petición para realizar otro pedido más.
+- No salta ningún error si un empleado de la empresa con 5 pedidos asignados recibe una petición para encargarse de otro pedido más.
+
+#### Escenarios de prueba de la RN-003
+
+**Casos positivos**
+
+- Un cliente trata de hacer una devolución a la semana de comprar el producto.
+- Salta un error cuando un cliente trata de hacer una devolución a los dos meses de comprar el producto.
+- Un cliente trata de hacer una devolución a los 29 días de comprar el producto a las 23:59:50 de la noche.
+
+**Casos negativos**
+
+- Salta error cuando un cliente trata de hacer una devolución al día siguiente de comprar el producto.
 
 ---
 
