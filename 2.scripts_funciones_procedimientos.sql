@@ -14,9 +14,9 @@ CREATE OR REPLACE FUNCTION f_importePorPagar(pedId INT)
 RETURNS DECIMAL(10, 2)
 	BEGIN
 	DECLARE pagado DECIMAL(10, 2);
-	 SET pagado = (SELECT SUM(pagos.importe)
+	 SET pagado = IFNULL((SELECT SUM(pagos.importe)
 	 	FROM pagos
-	 	WHERE pagos.pedidoId = pedId);
+	 	WHERE pagos.pedidoId = pedId), 0);
 	RETURN f_precioTotal(pedId) - pagado;
 	END;
 //
@@ -24,7 +24,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE OR REPLACE FUNCTION f_estadoPago(pedId INT)
-RETURNS DECIMAL(10, 2)
+RETURNS VARCHAR(255)
 	BEGIN
 	DECLARE pagado VARCHAR(255);
 	 SET pagado = 'PENDIENTE';
