@@ -625,6 +625,32 @@ A continuación se presentan tres escenarios de prueba que validan el comportami
 
 - Salta error cuando un cliente trata de hacer una devolución al día siguiente de comprar el producto.
 
+#### Escenarios de prueba de la RN-004
+
+**Casos positivos**
+
+- Un cliente trata de hacer un pago menor a 500.00 euros en un solo plazo.
+- Un cliente trata de hacer un pago de 2499.99 euros en 3 plazos distintos de 833.33 euros cada uno.
+- Salta un error cuando un cliente trata de hacer un pago de 200.00 euros en más de un plazo.
+
+**Casos negativos**
+
+- No ocurre nada si un cliente trata de hacer un pago de 170.00 euros en 2 plazos.
+- Salta un error cuando un cliente trata de hacer un pago de 700.00 euros en más de un plazo.
+
+#### Escenarios de prueba de la RN-005
+
+**Casos positivos**
+
+- Un empleado envía un pedido de 80.00 euros después que el cliente pague la cantidad íntegra del mismo.
+- Un empleado envía un pedido de 120.00 euros después que el cliente pague 50.00 euros.
+- Salta un error cuando un empleado envía un pedido de 80.00 euros después que el cliente pague solo 25.00 euros del mismo.
+
+**Casos negativos**
+
+- No salta ningún error si un empleado envía un pedido de 60.00 euros después que un cliente pague solo 10.00 euros.
+- Salta un error si un empleado envía un pedido de 160.00 euros y el cliente ya ha pagado 100.00 euros.
+
 ---
 
 ## 6. Matrices de trazabilidad
