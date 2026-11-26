@@ -25,7 +25,7 @@ BEFORE INSERT ON pedidos FOR EACH ROW
 	BEGIN
 	if (NEW.empleadoId IS NOT NULL AND NEW.fechaEntrega IS NULL) then
 		if (f_pedidosEnCurso(NEW.empleadoId) >= 5) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT =
+			SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT =
 				'Un empleado no puede gestionar más de 5 pedidos en curso';
 		END if;
 	END if;
@@ -39,7 +39,7 @@ BEFORE UPDATE ON pedidos FOR EACH ROW
 	if (NEW.empleadoId IS NOT NULL AND NEW.fechaEntrega IS NULL
 		AND (OLD.empleadoId IS NULL OR NEW.empleadoId <> OLD.empleadoId OR OLD.fechaEntrega IS NOT NULL)) then
 		if (f_pedidosEnCurso(NEW.empleadoId) >= 5) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT =
+			SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT =
 				'Un empleado no puede gestionar más de 5 pedidos en curso';
 		END if;
 	END if;
